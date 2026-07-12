@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'theme/app_theme.dart';
+
 class AnimaAidApp extends StatelessWidget {
   const AnimaAidApp({super.key});
 
@@ -8,9 +10,15 @@ class AnimaAidApp extends StatelessWidget {
     return MaterialApp(
       title: 'AnimaAid',
       debugShowCheckedModeBanner: false,
+
+      theme: AppTheme.lightTheme,
+
       home: Scaffold(
         body: Center(
-          child: Text('AnimaAid'),
+          child: Text(
+            'AnimaAid',
+            style: Theme.of(context).textTheme.headlineLarge,
+          ),
         ),
       ),
     );
