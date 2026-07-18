@@ -140,7 +140,7 @@ class HomePage extends StatelessWidget {
 
   Widget _buildQuickActions(BuildContext context) {
     return SizedBox(
-      height: 112,
+      height: 124,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
