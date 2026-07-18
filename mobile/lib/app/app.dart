@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'router/app_router.dart';
 import 'theme/app_theme.dart';
 
 class AnimaAidApp extends StatelessWidget {
@@ -7,20 +8,10 @@ class AnimaAidApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'AnimaAid',
-      debugShowCheckedModeBanner: false,
-
       theme: AppTheme.lightTheme,
-
-      home: Scaffold(
-        body: Center(
-          child: Text(
-            'AnimaAid',
-            style: Theme.of(context).textTheme.headlineLarge,
-          ),
-        ),
-      ),
+      routerConfig: AppRouter.router,
     );
   }
 }
