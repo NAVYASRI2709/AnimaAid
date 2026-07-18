@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({
@@ -151,6 +152,7 @@ class HomePage extends StatelessWidget {
             context,
             icon: Icons.search_rounded,
             label: 'Missing Pets',
+            onTap: () => context.go('/missing-pets'),
           ),
           _buildQuickAction(
             context,
@@ -168,35 +170,40 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildQuickAction(
-    BuildContext context, {
-    required IconData icon,
-    required String label,
-  }) {
-    return SizedBox(
-      width: 92,
-      child: Padding(
-        padding: const EdgeInsets.only(right: 12),
-        child: Column(
-          children: [
-            Card(
+  BuildContext context, {
+  required IconData icon,
+  required String label,
+  VoidCallback? onTap,
+}) {
+  return SizedBox(
+    width: 92,
+    child: Padding(
+      padding: const EdgeInsets.only(right: 12),
+      child: Column(
+        children: [
+          Card(
+            child: InkWell(
+              onTap: onTap,
+              borderRadius: BorderRadius.circular(12),
               child: SizedBox(
                 height: 64,
                 width: 80,
                 child: Icon(icon, size: 30),
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              label,
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildSectionTitle(
     BuildContext context, {
