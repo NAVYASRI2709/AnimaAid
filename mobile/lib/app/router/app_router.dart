@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../app_shell.dart';
 
 class AppRouter {
   AppRouter._();
@@ -10,7 +11,9 @@ class AppRouter {
       GoRoute(
         path: '/',
         builder: (context, state) {
-          return const Placeholder();
+          return AppShell(
+            child: const Placeholder(),
+          );
         },
       ),
     ],
