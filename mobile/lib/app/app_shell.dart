@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-class AppShell extends StatefulWidget {
+class AppShell extends StatelessWidget {
   const AppShell({
     required this.child,
     super.key,
@@ -9,22 +10,32 @@ class AppShell extends StatefulWidget {
   final Widget child;
 
   @override
-  State<AppShell> createState() => _AppShellState();
-}
-
-class _AppShellState extends State<AppShell> {
-  int _currentIndex = 0;
-
-  @override
   Widget build(BuildContext context) {
+    final currentLocation = GoRouterState.of(context).uri.path;
+
+    final selectedIndex = switch (currentLocation) {
+      '/rescue' => 1,
+      '/adoption' => 2,
+      _ => 0,
+    };
+
     return Scaffold(
-      body: widget.child,
+      body: child,
       bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
+        selectedIndex: selectedIndex,
         onDestinationSelected: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
+          switch (index) {
+            case 0:
+              context.go('/');
+            case 1:
+              context.go('/rescue');
+            case 2:
+              context.go('/adoption');
+            case 3:
+              break;
+            case 4:
+              break;
+          }
         },
         destinations: const [
           NavigationDestination(
