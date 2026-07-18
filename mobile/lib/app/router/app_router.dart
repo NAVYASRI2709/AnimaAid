@@ -4,6 +4,7 @@ import '../../features/adoption/presentation/adoption_page.dart';
 import '../../features/home/presentation/home_page.dart';
 import '../../features/rescue/presentation/rescue_page.dart';
 import '../app_shell.dart';
+import '../../features/ai_assistant/presentation/ai_assistant_page.dart';
 
 class AppRouter {
   AppRouter._();
@@ -32,6 +33,14 @@ class AppRouter {
         builder: (context, state) {
           return const AppShell(
             child: AdoptionPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/ai-assistant',
+        builder: (context, state) {
+          return const AppShell(
+            child: AiAssistantPage(),
           );
         },
       ),

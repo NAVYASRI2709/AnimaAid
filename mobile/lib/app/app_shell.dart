@@ -16,8 +16,9 @@ class AppShell extends StatelessWidget {
     final selectedIndex = switch (currentLocation) {
       '/rescue' => 1,
       '/adoption' => 2,
-      _ => 0,
-    };
+      '/ai-assistant' => 3,
+  _ => 0,
+};
 
     return Scaffold(
       body: child,
@@ -32,7 +33,7 @@ class AppShell extends StatelessWidget {
             case 2:
               context.go('/adoption');
             case 3:
-              break;
+              context.go('/ai-assistant');
             case 4:
               break;
           }
