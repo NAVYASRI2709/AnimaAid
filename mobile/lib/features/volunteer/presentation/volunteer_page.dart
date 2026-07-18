@@ -1,7 +1,39 @@
 import 'package:flutter/material.dart';
 
-class VolunteerPage extends StatelessWidget {
+class VolunteerPage extends StatefulWidget {
   const VolunteerPage({super.key});
+
+  @override
+  State<VolunteerPage> createState() => _VolunteerPageState();
+}
+
+class _VolunteerPageState extends State<VolunteerPage> {
+  bool _isVolunteer = false;
+  String? _selectedOpportunity;
+
+  void _joinAsVolunteer() {
+    setState(() {
+      _isVolunteer = true;
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('You have joined the volunteer community.'),
+      ),
+    );
+  }
+
+  void _selectOpportunity(String opportunity) {
+    setState(() {
+      _selectedOpportunity = opportunity;
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('$opportunity selected.'),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +58,13 @@ class VolunteerPage extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: FilledButton.icon(
-                onPressed: () {},
+                onPressed: _isVolunteer ? null : _joinAsVolunteer,
                 icon: const Icon(Icons.volunteer_activism),
-                label: const Text('Join as a Volunteer'),
+                label: Text(
+                  _isVolunteer
+                      ? 'You Are a Volunteer'
+                      : 'Join as a Volunteer',
+                ),
               ),
             ),
             const SizedBox(height: 28),
@@ -37,28 +73,20 @@ class VolunteerPage extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 12),
-            Card(
-              child: ListTile(
-                leading: const Icon(Icons.pets_outlined),
-                title: const Text('Animal Rescue Support'),
-                subtitle: const Text(
+            _buildOpportunityCard(
+              context,
+              icon: Icons.pets_outlined,
+              title: 'Animal Rescue Support',
+              subtitle:
                   'Help support rescue and welfare activities.',
-                ),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: () {},
-              ),
             ),
             const SizedBox(height: 12),
-            Card(
-              child: ListTile(
-                leading: const Icon(Icons.home_outlined),
-                title: const Text('Shelter Assistance'),
-                subtitle: const Text(
+            _buildOpportunityCard(
+              context,
+              icon: Icons.home_outlined,
+              title: 'Shelter Assistance',
+              subtitle:
                   'Support local shelters and animal care centers.',
-                ),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: () {},
-              ),
             ),
             const SizedBox(height: 28),
             Text(
@@ -71,7 +99,10 @@ class VolunteerPage extends StatelessWidget {
                 padding: const EdgeInsets.all(20),
                 child: Center(
                   child: Text(
-                    'No volunteer activity yet.',
+                    _selectedOpportunity == null
+                        ? 'No volunteer activity yet.'
+                        : 'Selected opportunity:\n$_selectedOpportunity',
+                    textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
@@ -79,6 +110,29 @@ class VolunteerPage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildOpportunityCard(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String subtitle,
+  }) {
+    final isSelected = _selectedOpportunity == title;
+
+    return Card(
+      child: ListTile(
+        leading: Icon(icon),
+        title: Text(title),
+        subtitle: Text(subtitle),
+        trailing: Icon(
+          isSelected
+              ? Icons.check_circle
+              : Icons.chevron_right,
+        ),
+        onTap: () => _selectOpportunity(title),
       ),
     );
   }

@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 
-class RescuePage extends StatelessWidget {
+class RescuePage extends StatefulWidget {
   const RescuePage({super.key});
+
+  @override
+  State<RescuePage> createState() => _RescuePageState();
+}
+
+class _RescuePageState extends State<RescuePage> {
+  bool _emergencyRequested = false;
+  bool _dangerReportStarted = false;
+  bool _helpSearchStarted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +23,8 @@ class RescuePage extends StatelessWidget {
             Text(
               'Rescue Center',
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
             const SizedBox(height: 8),
             Text(
@@ -31,16 +40,32 @@ class RescuePage extends StatelessWidget {
               context,
               icon: Icons.report_problem_outlined,
               title: 'Report an Animal in Danger',
-              subtitle: 'Report an injured, abandoned, or endangered animal.',
-              buttonText: 'Report Now',
+              subtitle:
+                  'Report an injured, abandoned, or endangered animal.',
+              buttonText: _dangerReportStarted
+                  ? 'Report Started'
+                  : 'Report Now',
+              onPressed: () {
+                setState(() {
+                  _dangerReportStarted = true;
+                });
+              },
             ),
             const SizedBox(height: 12),
             _buildServiceCard(
               context,
               icon: Icons.location_on_outlined,
               title: 'Find Nearby Help',
-              subtitle: 'Discover shelters, rescuers, and veterinary support nearby.',
-              buttonText: 'Find Help',
+              subtitle:
+                  'Discover shelters, rescuers, and veterinary support nearby.',
+              buttonText: _helpSearchStarted
+                  ? 'Help Search Started'
+                  : 'Find Help',
+              onPressed: () {
+                setState(() {
+                  _helpSearchStarted = true;
+                });
+              },
             ),
             const SizedBox(height: 28),
             _buildSectionTitle(context, 'Active Rescue'),
@@ -51,12 +76,18 @@ class RescuePage extends StatelessWidget {
                 leading: const CircleAvatar(
                   child: Icon(Icons.map_outlined),
                 ),
-                title: const Text(
-                  'No active rescue requests',
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                title: Text(
+                  _emergencyRequested
+                      ? 'Emergency rescue request active'
+                      : 'No active rescue requests',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-                subtitle: const Text(
-                  'Your active rescue activities will appear here.',
+                subtitle: Text(
+                  _emergencyRequested
+                      ? 'Rescue assistance has been requested.'
+                      : 'Your active rescue activities will appear here.',
                 ),
               ),
             ),
@@ -81,8 +112,8 @@ class RescuePage extends StatelessWidget {
             Text(
               'Emergency Rescue',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
             const SizedBox(height: 8),
             const Text(
@@ -92,8 +123,16 @@ class RescuePage extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: FilledButton(
-                onPressed: () {},
-                child: const Text('Request Emergency Rescue'),
+                onPressed: () {
+                  setState(() {
+                    _emergencyRequested = true;
+                  });
+                },
+                child: Text(
+                  _emergencyRequested
+                      ? 'Emergency Request Submitted'
+                      : 'Request Emergency Rescue',
+                ),
               ),
             ),
           ],
@@ -102,12 +141,15 @@ class RescuePage extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionTitle(BuildContext context, String title) {
+  Widget _buildSectionTitle(
+    BuildContext context,
+    String title,
+  ) {
     return Text(
       title,
       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-        fontWeight: FontWeight.bold,
-      ),
+            fontWeight: FontWeight.bold,
+          ),
     );
   }
 
@@ -117,6 +159,7 @@ class RescuePage extends StatelessWidget {
     required String title,
     required String subtitle,
     required String buttonText,
+    required VoidCallback onPressed,
   }) {
     return Card(
       child: Padding(
@@ -142,7 +185,7 @@ class RescuePage extends StatelessWidget {
                   Text(subtitle),
                   const SizedBox(height: 10),
                   OutlinedButton(
-                    onPressed: () {},
+                    onPressed: onPressed,
                     child: Text(buttonText),
                   ),
                 ],
