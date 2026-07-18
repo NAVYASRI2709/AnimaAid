@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+
 class HomePage extends StatelessWidget {
   const HomePage({
     super.key,
@@ -46,7 +47,7 @@ class HomePage extends StatelessWidget {
               icon: Icons.location_on_outlined,
               title: 'Nearby Shelters',
               subtitle: 'Find animal shelters and rescue centers',
-              onTap: () {},
+              onTap: () => context.go('/shelters'),
             ),
             const SizedBox(height: 28),
             _buildSectionTitle(
