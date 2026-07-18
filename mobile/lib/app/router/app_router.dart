@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../features/home/presentation/home_page.dart';
 import '../app_shell.dart';
 
 class AppRouter {
@@ -11,8 +12,8 @@ class AppRouter {
       GoRoute(
         path: '/',
         builder: (context, state) {
-          return AppShell(
-            child: const Placeholder(),
+          return const AppShell(
+            child: HomePage(),
           );
         },
       ),
