@@ -148,6 +148,7 @@ class HomePage extends StatelessWidget {
             context,
             icon: Icons.pets_outlined,
             label: 'Adopt',
+            onTap: () => context.go('/adoption'),
           ),
           _buildQuickAction(
             context,
@@ -159,11 +160,13 @@ class HomePage extends StatelessWidget {
             context,
             icon: Icons.volunteer_activism_outlined,
             label: 'Volunteer',
+            onTap: () => context.go('/volunteer'),
           ),
           _buildQuickAction(
             context,
             icon: Icons.favorite_border_rounded,
             label: 'Donate',
+            onTap: () => {},
           ),
         ],
       ),
