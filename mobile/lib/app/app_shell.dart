@@ -14,9 +14,11 @@ class AppShell extends StatelessWidget {
     final currentLocation = GoRouterState.of(context).uri.path;
 
     final selectedIndex = switch (currentLocation) {
-      '/rescue' => 1,
-      '/adoption' => 2,
-      '/ai-assistant' => 3,
+  '/rescue' => 1,
+  '/adoption' ||
+  '/animal-profile' ||
+  '/health-records' => 2,
+  '/ai-assistant' => 3,
   _ => 0,
 };
 
