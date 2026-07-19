@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class MissingPetsPage extends StatefulWidget {
   const MissingPetsPage({super.key});
@@ -122,6 +123,14 @@ class _MissingPetsPageState extends State<MissingPetsPage> {
               Text(
                 'Search for missing pets or report an animal that has gone missing.',
                 style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 16),
+              OutlinedButton.icon(
+                onPressed: () {
+                  context.go('/found-pets');
+                },
+                icon: const Icon(Icons.pets_outlined),
+                label: const Text('View Found Pets'),
               ),
               const SizedBox(height: 24),
               TextField(

@@ -87,7 +87,9 @@ class HomePage extends StatelessWidget {
           ),
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            context.go('/notifications');
+          },
           icon: const Icon(Icons.notifications_none_rounded),
           tooltip: 'Notifications',
         ),
@@ -166,7 +168,7 @@ class HomePage extends StatelessWidget {
             context,
             icon: Icons.favorite_border_rounded,
             label: 'Donate',
-            onTap: () => {},
+            onTap: () => context.go('/donate'),
           ),
         ],
       ),

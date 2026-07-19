@@ -19,6 +19,7 @@ class AppShell extends StatelessWidget {
   '/animal-profile' ||
   '/health-records' => 2,
   '/ai-assistant' => 3,
+  '/profile' => 4,
   _ => 0,
 };
 
@@ -37,6 +38,8 @@ class AppShell extends StatelessWidget {
             case 3:
               context.go('/ai-assistant');
             case 4:
+              context.go('/profile');
+            case 5:
               break;
           }
         },

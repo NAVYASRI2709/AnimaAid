@@ -11,6 +11,12 @@ import '../../features/shelters/presentation/shelters_page.dart';
 import '../../features/animal_profile/presentation/animal_profile_page.dart';
 import '../../features/health_records/presentation/health_record_page.dart';
 import '../../features/volunteer/presentation/volunteer_page.dart';
+import '../../features/profile/presentation/profile_page.dart';
+import '../../features/donations/presentation/donations_page.dart';
+import '../../features/settings/presentation/settings_page.dart';
+import '../../features/notifications/presentation/notifications_page.dart';
+
+
 
 
 class AppRouter {
@@ -96,6 +102,54 @@ class AppRouter {
         builder: (context, state) {
           return const AppShell(
             child: VolunteerPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/profile',
+        builder: (context, state) {
+          return const AppShell(
+            child: ProfilePage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/donate',
+        builder: (context, state) {
+          return const AppShell(
+            child: DonationsPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/settings',
+        builder: (context, state) {
+          return const AppShell(
+            child: SettingsPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/settings',
+        builder: (context, state) {
+          return const AppShell(
+            child: SettingsPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/notifications',
+        builder: (context, state) {
+          return const AppShell(
+            child: NotificationsPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/notifications',
+        builder: (context, state) {
+          return const AppShell(
+            child: NotificationsPage(),
           );
         },
       ),
