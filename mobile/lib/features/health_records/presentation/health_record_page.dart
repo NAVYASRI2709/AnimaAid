@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class HealthRecordsPage extends StatefulWidget {
   const HealthRecordsPage({super.key});
@@ -20,6 +21,40 @@ class _HealthRecordsPageState extends State<HealthRecordsPage> {
   String _breed = 'Not specified';
   String _dateOfBirth = 'Not provided';
   String _estimatedAge = 'Not provided';
+
+  Future<void> _selectDate(
+    BuildContext context,
+    TextEditingController controller,
+  ) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1990),
+      lastDate: DateTime(2100),
+    );
+    if (picked != null) {
+      controller.text =
+          '${picked.day} ${_monthName(picked.month)} ${picked.year}';
+    }
+  }
+
+  String _monthName(int month) {
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    return months[month - 1];
+  }
 
   void _showEditAnimalDetailsDialog() {
     final nameController = TextEditingController(
@@ -73,17 +108,22 @@ class _HealthRecordsPageState extends State<HealthRecordsPage> {
                 const SizedBox(height: 12),
                 TextField(
                   controller: dateOfBirthController,
+                  readOnly: true,
+                  onTap: () => _selectDate(dialogContext, dateOfBirthController),
                   decoration: const InputDecoration(
                     labelText: 'Date of Birth',
-                    hintText: 'e.g. 15 March 2022',
+                    hintText: 'Tap to select date',
+                    suffixIcon: Icon(Icons.calendar_today),
                   ),
                 ),
                 const SizedBox(height: 12),
                 TextField(
                   controller: estimatedAgeController,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   decoration: const InputDecoration(
-                    labelText: 'Estimated Age',
-                    hintText: 'e.g. 4 years',
+                    labelText: 'Estimated Age (years)',
+                    hintText: 'e.g. 4',
                   ),
                 ),
               ],
@@ -111,7 +151,7 @@ class _HealthRecordsPageState extends State<HealthRecordsPage> {
                       : dateOfBirthController.text.trim();
                   _estimatedAge = estimatedAgeController.text.trim().isEmpty
                       ? 'Not provided'
-                      : estimatedAgeController.text.trim();
+                      : '${estimatedAgeController.text.trim()} years';
                 });
 
                 Navigator.pop(dialogContext);
@@ -148,17 +188,23 @@ class _HealthRecordsPageState extends State<HealthRecordsPage> {
                 const SizedBox(height: 12),
                 TextField(
                   controller: dateController,
+                  readOnly: true,
+                  onTap: () => _selectDate(dialogContext, dateController),
                   decoration: const InputDecoration(
                     labelText: 'Date Administered',
-                    hintText: 'e.g. 20 July 2026',
+                    hintText: 'Tap to select date',
+                    suffixIcon: Icon(Icons.calendar_today),
                   ),
                 ),
                 const SizedBox(height: 12),
                 TextField(
                   controller: nextDueController,
+                  readOnly: true,
+                  onTap: () => _selectDate(dialogContext, nextDueController),
                   decoration: const InputDecoration(
                     labelText: 'Next Due Date',
-                    hintText: 'e.g. 20 July 2027',
+                    hintText: 'Tap to select date',
+                    suffixIcon: Icon(Icons.calendar_today),
                   ),
                 ),
               ],
@@ -229,9 +275,12 @@ class _HealthRecordsPageState extends State<HealthRecordsPage> {
                 const SizedBox(height: 12),
                 TextField(
                   controller: dateController,
+                  readOnly: true,
+                  onTap: () => _selectDate(dialogContext, dateController),
                   decoration: const InputDecoration(
                     labelText: 'Date',
-                    hintText: 'e.g. 20 July 2026',
+                    hintText: 'Tap to select date',
+                    suffixIcon: Icon(Icons.calendar_today),
                   ),
                 ),
               ],
@@ -359,9 +408,12 @@ class _HealthRecordsPageState extends State<HealthRecordsPage> {
               children: [
                 TextField(
                   controller: dateController,
+                  readOnly: true,
+                  onTap: () => _selectDate(dialogContext, dateController),
                   decoration: const InputDecoration(
                     labelText: 'Visit Date',
-                    hintText: 'e.g. 20 July 2026',
+                    hintText: 'Tap to select date',
+                    suffixIcon: Icon(Icons.calendar_today),
                   ),
                 ),
                 const SizedBox(height: 12),

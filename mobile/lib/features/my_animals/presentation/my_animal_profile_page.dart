@@ -2,13 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class MyAnimalProfilePage extends StatelessWidget {
-  const MyAnimalProfilePage({super.key});
+  const MyAnimalProfilePage({
+    required this.name,
+    required this.species,
+    required this.breed,
+    super.key,
+  });
+
+  final String name;
+  final String species;
+  final String breed;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Buddy'),
+        title: Text(name),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -27,13 +36,14 @@ class MyAnimalProfilePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Buddy',
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                    name,
+                    style:
+                        Theme.of(context).textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                   ),
                   const SizedBox(height: 6),
-                  const Text('Dog • Golden Retriever'),
+                  Text('$species • $breed'),
                 ],
               ),
             ),
@@ -52,20 +62,20 @@ class MyAnimalProfilePage extends StatelessWidget {
                         ),
                   ),
                 ),
-                const ListTile(
-                  leading: Icon(Icons.pets_outlined),
-                  title: Text('Species'),
-                  trailing: Text('Dog'),
+                ListTile(
+                  leading: const Icon(Icons.pets_outlined),
+                  title: const Text('Species'),
+                  trailing: Text(species),
                 ),
-                const ListTile(
-                  leading: Icon(Icons.category_outlined),
-                  title: Text('Breed'),
-                  trailing: Text('Golden Retriever'),
+                ListTile(
+                  leading: const Icon(Icons.category_outlined),
+                  title: const Text('Breed'),
+                  trailing: Text(breed),
                 ),
                 const ListTile(
                   leading: Icon(Icons.monitor_weight_outlined),
                   title: Text('Weight'),
-                  trailing: Text('12 kg'),
+                  trailing: Text('Not added'),
                 ),
               ],
             ),

@@ -25,18 +25,18 @@ class SectionHeader extends StatelessWidget {
                 title,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              if (subtitle != null)
+              if (subtitle case final subtitle?)
                 Padding(
                   padding: const EdgeInsets.only(top: 4),
                   child: Text(
-                    subtitle!,
+                    subtitle,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
             ],
           ),
         ),
-        if (trailing != null) trailing!,
+        if (trailing case final trailing?) trailing,
       ],
     );
   }

@@ -85,7 +85,7 @@ class ProfilePage extends StatelessWidget {
                       'View your volunteering activity',
                     ),
                     trailing: const Icon(Icons.chevron_right),
-                    onTap: () => context.go('/volunteer'),
+                    onTap: () => context.go('/my-volunteer-activities'),
                   ),
                   const Divider(height: 1),
                   ListTile(

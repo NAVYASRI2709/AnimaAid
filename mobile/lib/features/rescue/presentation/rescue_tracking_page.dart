@@ -2,13 +2,51 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
-class RescueTrackingPage extends StatelessWidget {
+class RescueTrackingPage extends StatefulWidget {
   const RescueTrackingPage({super.key});
 
-  static const LatLng _rescueLocation = LatLng(
-    13.0827,
-    80.2707,
-  );
+  @override
+  State<RescueTrackingPage> createState() => _RescueTrackingPageState();
+}
+
+class _RescueTrackingPageState extends State<RescueTrackingPage> {
+  final List<Map<String, dynamic>> _rescueRequests = [
+    {
+      'id': 'RES-1001',
+      'animal': 'Injured Dog',
+      'location': 'Chennai',
+      'volunteer': 'Rescue volunteer assigned',
+      'status': 'Rescue In Progress',
+      'description':
+          'A rescue volunteer is responding to this request.',
+      'locationCoordinates': const LatLng(13.0827, 80.2707),
+    },
+    {
+      'id': 'RES-1002',
+      'animal': 'Stray Cat',
+      'location': 'Adyar, Chennai',
+      'volunteer': 'Volunteer assignment pending',
+      'status': 'Volunteer Assigned',
+      'description':
+          'A volunteer has accepted the rescue request.',
+      'locationCoordinates': const LatLng(13.0067, 80.2572),
+    },
+    {
+      'id': 'RES-1003',
+      'animal': 'Abandoned Puppy',
+      'location': 'T. Nagar, Chennai',
+      'volunteer': 'Rescue request received',
+      'status': 'Request Submitted',
+      'description':
+          'Your rescue request was received.',
+      'locationCoordinates': const LatLng(13.0418, 80.2341),
+    },
+  ];
+
+  int _selectedRescueIndex = 0;
+
+  Map<String, dynamic> get _selectedRescue =>
+      _rescueRequests[_selectedRescueIndex];
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +58,7 @@ class RescueTrackingPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              _buildRescueSelector(context),
               _buildStatusCard(context),
               _buildMap(context),
               _buildRescueDetails(context),
@@ -30,9 +69,51 @@ class RescueTrackingPage extends StatelessWidget {
     );
   }
 
-  Widget _buildStatusCard(BuildContext context) {
+  Widget _buildRescueSelector(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+      margin: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: DropdownButtonFormField<int>(
+          initialValue: _selectedRescueIndex,
+          decoration: const InputDecoration(
+            labelText: 'Select Rescue Request',
+            prefixIcon: Icon(Icons.emergency_outlined),
+            border: OutlineInputBorder(),
+          ),
+          items: List.generate(
+            _rescueRequests.length,
+            (index) {
+              final rescue = _rescueRequests[index];
+
+              return DropdownMenuItem<int>(
+                value: index,
+                child: Text(
+                  '${rescue['id']} • ${rescue['animal']}',
+                ),
+              );
+            },
+          ),
+          onChanged: (index) {
+            if (index == null) {
+              return;
+            }
+
+            setState(() {
+              _selectedRescueIndex = index;
+            });
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatusCard(BuildContext context) {
+    final rescue = _selectedRescue;
+    final status = rescue['status'] as String;
+
+    return Card(
+      margin: const EdgeInsets.fromLTRB(16, 12, 16, 12),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -54,7 +135,7 @@ class RescueTrackingPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Rescue In Progress',
+                        status,
                         style: Theme.of(context)
                             .textTheme
                             .titleLarge
@@ -64,7 +145,7 @@ class RescueTrackingPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'A rescue volunteer is responding to this request.',
+                        rescue['description'] as String,
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ],
@@ -85,7 +166,7 @@ class RescueTrackingPage extends StatelessWidget {
               icon: Icons.check_circle,
               title: 'Volunteer Assigned',
               subtitle: 'A volunteer has accepted the rescue request.',
-              isCompleted: true,
+              isCompleted: status != 'Request Submitted',
             ),
             _buildProgressStep(
               context,
@@ -93,7 +174,7 @@ class RescueTrackingPage extends StatelessWidget {
               title: 'Rescue In Progress',
               subtitle: 'The volunteer is travelling to the location.',
               isCompleted: false,
-              isCurrent: true,
+              isCurrent: status == 'Rescue In Progress',
             ),
             _buildProgressStep(
               context,
@@ -152,11 +233,14 @@ class RescueTrackingPage extends StatelessWidget {
   }
 
   Widget _buildMap(BuildContext context) {
+    final location =
+        _selectedRescue['locationCoordinates'] as LatLng;
+
     return SizedBox(
       height: 280,
       child: FlutterMap(
-        options: const MapOptions(
-          initialCenter: _rescueLocation,
+        options: MapOptions(
+          initialCenter: location,
           initialZoom: 14,
         ),
         children: [
@@ -168,7 +252,7 @@ class RescueTrackingPage extends StatelessWidget {
           MarkerLayer(
             markers: [
               Marker(
-                point: _rescueLocation,
+                point: location,
                 width: 50,
                 height: 50,
                 child: const Icon(
@@ -185,6 +269,8 @@ class RescueTrackingPage extends StatelessWidget {
   }
 
   Widget _buildRescueDetails(BuildContext context) {
+    final rescue = _selectedRescue;
+
     return Card(
       margin: const EdgeInsets.all(16),
       child: Padding(
@@ -199,23 +285,29 @@ class RescueTrackingPage extends StatelessWidget {
                   ),
             ),
             const SizedBox(height: 16),
-            const ListTile(
+            ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: Icon(Icons.pets_outlined),
-              title: Text('Animal'),
-              subtitle: Text('Animal rescue request'),
+              leading: const Icon(Icons.confirmation_number_outlined),
+              title: const Text('Request ID'),
+              subtitle: Text(rescue['id'] as String),
             ),
-            const ListTile(
+            ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: Icon(Icons.location_on_outlined),
-              title: Text('Location'),
-              subtitle: Text('Chennai'),
+              leading: const Icon(Icons.pets_outlined),
+              title: const Text('Animal'),
+              subtitle: Text(rescue['animal'] as String),
             ),
-            const ListTile(
+            ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: Icon(Icons.volunteer_activism_outlined),
-              title: Text('Assigned Volunteer'),
-              subtitle: Text('Rescue volunteer assigned'),
+              leading: const Icon(Icons.location_on_outlined),
+              title: const Text('Location'),
+              subtitle: Text(rescue['location'] as String),
+            ),
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.volunteer_activism_outlined),
+              title: const Text('Assigned Volunteer'),
+              subtitle: Text(rescue['volunteer'] as String),
             ),
           ],
         ),

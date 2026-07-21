@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class FoundPetsPage extends StatefulWidget {
   const FoundPetsPage({super.key});
@@ -75,17 +76,7 @@ class _FoundPetsPageState extends State<FoundPetsPage> {
       },
     );
   }
-
-  void _showReportConfirmation() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          'Found pet reporting will be connected to the backend soon.',
-        ),
-      ),
-    );
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     final filteredPets = _foundPets.where((pet) {
@@ -148,7 +139,9 @@ class _FoundPetsPageState extends State<FoundPetsPage> {
               SizedBox(
                 width: double.infinity,
                 child: FilledButton.icon(
-                  onPressed: _showReportConfirmation,
+                  onPressed: () {
+  context.push('/report-found-pet');
+},
                   icon: const Icon(Icons.add_location_alt_outlined),
                   label: const Text('Report Found Pet'),
                 ),

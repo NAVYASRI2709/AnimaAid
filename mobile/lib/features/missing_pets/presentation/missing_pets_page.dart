@@ -77,15 +77,7 @@ class _MissingPetsPageState extends State<MissingPetsPage> {
     );
   }
 
-  void _showReportConfirmation() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          'Missing pet reporting will be connected to the backend soon.',
-        ),
-      ),
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +149,9 @@ class _MissingPetsPageState extends State<MissingPetsPage> {
               SizedBox(
                 width: double.infinity,
                 child: FilledButton.icon(
-                  onPressed: _showReportConfirmation,
+                  onPressed: () {
+  context.push('/report-missing-pet');
+},
                   icon: const Icon(Icons.add_alert),
                   label: const Text('Report Missing Pet'),
                 ),
