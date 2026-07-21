@@ -1,7 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
+
+  void _showHelpDialog(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Help & Support'),
+          content: const Text(
+            'For help and support, please use the available rescue and welfare services in AnimaAid.',
+          ),
+          actions: [
+            FilledButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +50,10 @@ class ProfilePage extends StatelessWidget {
                     const SizedBox(height: 16),
                     Text(
                       'Animal Lover',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
-                          ?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                      style:
+                          Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
                     ),
                     const SizedBox(height: 6),
                     Text(
@@ -54,7 +73,7 @@ class ProfilePage extends StatelessWidget {
                     title: const Text('My Animals'),
                     subtitle: const Text('Manage your animal profiles'),
                     trailing: const Icon(Icons.chevron_right),
-                    onTap: () {},
+                    onTap: () => context.go('/animal-profile'),
                   ),
                   const Divider(height: 1),
                   ListTile(
@@ -66,7 +85,7 @@ class ProfilePage extends StatelessWidget {
                       'View your volunteering activity',
                     ),
                     trailing: const Icon(Icons.chevron_right),
-                    onTap: () {},
+                    onTap: () => context.go('/volunteer'),
                   ),
                   const Divider(height: 1),
                   ListTile(
@@ -74,7 +93,7 @@ class ProfilePage extends StatelessWidget {
                     title: const Text('My Favorites'),
                     subtitle: const Text('View saved animals'),
                     trailing: const Icon(Icons.chevron_right),
-                    onTap: () {},
+                    onTap: () => context.go('/favorites'),
                   ),
                 ],
               ),
@@ -87,14 +106,14 @@ class ProfilePage extends StatelessWidget {
                     leading: const Icon(Icons.settings_outlined),
                     title: const Text('Settings'),
                     trailing: const Icon(Icons.chevron_right),
-                    onTap: () {},
+                    onTap: () => context.go('/settings'),
                   ),
                   const Divider(height: 1),
                   ListTile(
                     leading: const Icon(Icons.help_outline),
                     title: const Text('Help & Support'),
                     trailing: const Icon(Icons.chevron_right),
-                    onTap: () {},
+                    onTap: () => _showHelpDialog(context),
                   ),
                 ],
               ),

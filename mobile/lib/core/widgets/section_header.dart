@@ -25,13 +25,14 @@ class SectionHeader extends StatelessWidget {
                 title,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              if (subtitle != null) ...[
-                const SizedBox(height: 4),
-                Text(
-                  subtitle!,
-                  style: Theme.of(context).textTheme.bodyMedium,
+              if (subtitle != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Text(
+                    subtitle!,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 ),
-              ],
             ],
           ),
         ),

@@ -15,7 +15,13 @@ import '../../features/profile/presentation/profile_page.dart';
 import '../../features/donations/presentation/donations_page.dart';
 import '../../features/settings/presentation/settings_page.dart';
 import '../../features/notifications/presentation/notifications_page.dart';
-
+import '../../features/emergency_report/presentation/emergency_report_page.dart';
+import '../../features/my_animals/presentation/my_animals_page.dart';
+import '../../features/my_animals/presentation/my_animal_profile_page.dart';
+import '../../features/my_animals/presentation/my_animal_health_page.dart';
+import '../../features/favorites/presentation/favorites_page.dart';
+import '../../features/rescue/presentation/rescue_location_page.dart';
+import '../../features/rescue/presentation/rescue_tracking_page.dart';
 
 
 
@@ -146,13 +152,62 @@ class AppRouter {
         },
       ),
       GoRoute(
-        path: '/notifications',
+        path: '/emergency-report',
         builder: (context, state) {
           return const AppShell(
-            child: NotificationsPage(),
+            child: EmergencyReportPage(),
           );
         },
       ),
+      GoRoute(
+  path: '/my-animals',
+  builder: (context, state) {
+    return const AppShell(
+      child: MyAnimalsPage(),
+    );
+  },
+),
+
+GoRoute(
+  path: '/my-animal-profile',
+  builder: (context, state) {
+    return const AppShell(
+      child: MyAnimalProfilePage(),
+    );
+  },
+),
+GoRoute(
+  path: '/my-animal-health',
+  builder: (context, state) {
+    return const AppShell(
+      child: MyAnimalHealthPage(),
+    );
+  },
+),
+GoRoute(
+  path: '/emergency-report',
+  builder: (context, state) {
+    return const AppShell(
+      child: EmergencyReportPage(),
+    );
+  },
+),
+GoRoute(
+  path: '/favorites',
+  builder: (context, state) {
+    return const AppShell(
+      child: FavoritesPage(),
+    );
+  },
+),
+GoRoute(
+  path: '/rescue-location',
+  builder: (context, state) => const RescueLocationPage(),
+),
+GoRoute(
+  path: '/rescue-tracking',
+  builder: (context, state) => const RescueTrackingPage(),
+),
     ],
   );
 }

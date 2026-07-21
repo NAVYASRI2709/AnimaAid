@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-class RescuePage extends StatefulWidget {
+class RescuePage extends StatelessWidget {
   const RescuePage({super.key});
-
-  @override
-  State<RescuePage> createState() => _RescuePageState();
-}
-
-class _RescuePageState extends State<RescuePage> {
-  bool _emergencyRequested = false;
-  bool _dangerReportStarted = false;
-  bool _helpSearchStarted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +34,8 @@ class _RescuePageState extends State<RescuePage> {
               title: 'Report an Animal in Danger',
               subtitle:
                   'Report an injured, abandoned, or endangered animal.',
-              buttonText: _dangerReportStarted
-                  ? 'Report Started'
-                  : 'Report Now',
-              onPressed: () {
-                setState(() {
-                  _dangerReportStarted = true;
-                });
-              },
+              buttonText: 'Report Now',
+              onPressed: () => context.go('/emergency-report'),
             ),
             const SizedBox(height: 12),
             _buildServiceCard(
@@ -58,39 +44,31 @@ class _RescuePageState extends State<RescuePage> {
               title: 'Find Nearby Help',
               subtitle:
                   'Discover shelters, rescuers, and veterinary support nearby.',
-              buttonText: _helpSearchStarted
-                  ? 'Help Search Started'
-                  : 'Find Help',
-              onPressed: () {
-                setState(() {
-                  _helpSearchStarted = true;
-                });
-              },
+              buttonText: 'Find Help',
+              onPressed: () => context.go('/shelters'),
             ),
             const SizedBox(height: 28),
             _buildSectionTitle(context, 'Active Rescue'),
             const SizedBox(height: 14),
             Card(
-              child: ListTile(
-                contentPadding: const EdgeInsets.all(16),
-                leading: const CircleAvatar(
-                  child: Icon(Icons.map_outlined),
-                ),
-                title: Text(
-                  _emergencyRequested
-                      ? 'Emergency rescue request active'
-                      : 'No active rescue requests',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                subtitle: Text(
-                  _emergencyRequested
-                      ? 'Rescue assistance has been requested.'
-                      : 'Your active rescue activities will appear here.',
-                ),
-              ),
-            ),
+  child: ListTile(
+    contentPadding: const EdgeInsets.all(16),
+    leading: const CircleAvatar(
+      child: Icon(Icons.map_outlined),
+    ),
+    title: const Text(
+      'Track Active Rescue',
+      style: TextStyle(
+        fontWeight: FontWeight.w600,
+      ),
+    ),
+    subtitle: const Text(
+      'View the current status and location of an active rescue.',
+    ),
+    trailing: const Icon(Icons.chevron_right),
+    onTap: () => context.go('/rescue-tracking'),
+  ),
+),
           ],
         ),
       ),
@@ -122,17 +100,10 @@ class _RescuePageState extends State<RescuePage> {
             const SizedBox(height: 18),
             SizedBox(
               width: double.infinity,
-              child: FilledButton(
-                onPressed: () {
-                  setState(() {
-                    _emergencyRequested = true;
-                  });
-                },
-                child: Text(
-                  _emergencyRequested
-                      ? 'Emergency Request Submitted'
-                      : 'Request Emergency Rescue',
-                ),
+              child: FilledButton.icon(
+                onPressed: () => context.go('/emergency-report'),
+                icon: const Icon(Icons.emergency_outlined),
+                label: const Text('Request Emergency Rescue'),
               ),
             ),
           ],

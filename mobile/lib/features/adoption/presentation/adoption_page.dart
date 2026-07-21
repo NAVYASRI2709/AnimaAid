@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/services/favorites_service.dart';
+
 class AdoptionPage extends StatefulWidget {
   const AdoptionPage({super.key});
 
@@ -26,72 +28,84 @@ class _AdoptionPageState extends State<AdoptionPage> {
     },
   ];
 
-  final Set<String> _favoriteAnimals = {};
   String _searchQuery = '';
   String? _selectedType;
 
   @override
+  void initState() {
+    super.initState();
+    FavoritesService.instance.favorites.addListener(_onFavoritesChanged);
+  }
+
+  @override
   void dispose() {
+    FavoritesService.instance.favorites.removeListener(_onFavoritesChanged);
     _searchController.dispose();
     super.dispose();
   }
 
+  void _onFavoritesChanged() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
   void _showFilterSheet() {
-  showModalBottomSheet<void>(
-    context: context,
-    builder: (context) {
-      return SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              title: const Text('All animals'),
-              onTap: () {
-                setState(() {
-                  _selectedType = null;
-                });
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('Dogs'),
-              onTap: () {
-                setState(() {
-                  _selectedType = 'dog';
-                });
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('Cats'),
-              onTap: () {
-                setState(() {
-                  _selectedType = 'cat';
-                });
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: const Text('All animals'),
+                onTap: () {
+                  setState(() {
+                    _selectedType = null;
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Dogs'),
+                onTap: () {
+                  setState(() {
+                    _selectedType = 'dog';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Cats'),
+                onTap: () {
+                  setState(() {
+                    _selectedType = 'cat';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final filteredAnimals = _animals.where((animal) {
-        final name = animal['name']!.toLowerCase();
-        final details = animal['details']!.toLowerCase();
-        final query = _searchQuery.toLowerCase();
+      final name = animal['name']!.toLowerCase();
+      final details = animal['details']!.toLowerCase();
+      final query = _searchQuery.toLowerCase();
 
-        final matchesSearch =
-      name.contains(query) || details.contains(query);
+      final matchesSearch =
+          name.contains(query) || details.contains(query);
 
-        final matchesType = _selectedType == null ||
-      details.contains(_selectedType!);
+      final matchesType =
+          _selectedType == null || details.contains(_selectedType!);
 
-        return matchesSearch && matchesType;
+      return matchesSearch && matchesType;
     }).toList();
 
     return SafeArea(
@@ -166,7 +180,8 @@ class _AdoptionPageState extends State<AdoptionPage> {
     required String name,
     required String details,
   }) {
-    final isFavorite = _favoriteAnimals.contains(name);
+    final isFavorite =
+        FavoritesService.instance.isFavorite(name);
 
     return Card(
       child: Padding(
@@ -187,7 +202,10 @@ class _AdoptionPageState extends State<AdoptionPage> {
                 children: [
                   Text(
                     name,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                   ),
@@ -195,7 +213,8 @@ class _AdoptionPageState extends State<AdoptionPage> {
                   Text(details),
                   const SizedBox(height: 10),
                   OutlinedButton(
-                    onPressed: () => context.go('/animal-profile'),
+                    onPressed: () =>
+                        context.go('/animal-profile'),
                     child: const Text('View Profile'),
                   ),
                 ],
@@ -203,13 +222,7 @@ class _AdoptionPageState extends State<AdoptionPage> {
             ),
             IconButton(
               onPressed: () {
-                setState(() {
-                  if (isFavorite) {
-                    _favoriteAnimals.remove(name);
-                  } else {
-                    _favoriteAnimals.add(name);
-                  }
-                });
+                FavoritesService.instance.toggleFavorite(name);
               },
               icon: Icon(
                 isFavorite

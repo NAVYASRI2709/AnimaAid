@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
               icon: Icons.smart_toy_outlined,
               title: 'Dr. Paws AI Assistant',
               subtitle: 'Get guidance for your animal companion',
-              onTap: () {},
+              onTap: () => context.go('/ai-assistant'),
             ),
             const SizedBox(height: 12),
             _buildFeatureCard(
@@ -122,7 +122,7 @@ class HomePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   FilledButton.icon(
-                    onPressed: () {},
+                    onPressed: () => context.go('/emergency-report'),
                     icon: const Icon(Icons.emergency_outlined),
                     label: const Text('Request Rescue'),
                   ),
@@ -146,12 +146,6 @@ class HomePage extends StatelessWidget {
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
-          _buildQuickAction(
-            context,
-            icon: Icons.pets_outlined,
-            label: 'Adopt',
-            onTap: () => context.go('/adoption'),
-          ),
           _buildQuickAction(
             context,
             icon: Icons.search_rounded,
@@ -293,7 +287,7 @@ class HomePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () => context.go('/adoption'),
                     child: const Text('Explore Adoption'),
                   ),
                 ],

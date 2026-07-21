@@ -8,30 +8,74 @@ class VolunteerPage extends StatefulWidget {
 }
 
 class _VolunteerPageState extends State<VolunteerPage> {
-  bool _isVolunteer = false;
-  String? _selectedOpportunity;
+  final Set<String> _joinedOpportunities = {};
 
-  void _joinAsVolunteer() {
-    setState(() {
-      _isVolunteer = true;
-    });
+  final List<Map<String, dynamic>> _opportunities = [
+    {
+      'title': 'Animal Rescue Support',
+      'subtitle': 'Help support rescue and welfare activities.',
+      'icon': Icons.pets_outlined,
+    },
+    {
+      'title': 'Shelter Assistance',
+      'subtitle': 'Support local shelters and animal care centers.',
+      'icon': Icons.home_outlined,
+    },
+  ];
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('You have joined the volunteer community.'),
-      ),
-    );
+  void _toggleOpportunity(String opportunity) {
+    if (_joinedOpportunities.contains(opportunity)) {
+      _showLeaveConfirmation(opportunity);
+    } else {
+      setState(() {
+        _joinedOpportunities.add(opportunity);
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'You joined $opportunity.',
+          ),
+        ),
+      );
+    }
   }
 
-  void _selectOpportunity(String opportunity) {
-    setState(() {
-      _selectedOpportunity = opportunity;
-    });
+  void _showLeaveConfirmation(String opportunity) {
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text('Leave Opportunity? 😢'),
+          content: Text(
+            'Are you sure you want to leave $opportunity?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: const Text('Stay'),
+            ),
+            FilledButton(
+              onPressed: () {
+                setState(() {
+                  _joinedOpportunities.remove(opportunity);
+                });
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('$opportunity selected.'),
-      ),
+                Navigator.pop(dialogContext);
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'You left $opportunity.',
+                    ),
+                  ),
+                );
+              },
+              child: const Text('Leave'),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -54,60 +98,34 @@ class _VolunteerPageState extends State<VolunteerPage> {
             const Text(
               'Support animals and help create a safer community for every paw.',
             ),
-            const SizedBox(height: 24),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton.icon(
-                onPressed: _isVolunteer ? null : _joinAsVolunteer,
-                icon: const Icon(Icons.volunteer_activism),
-                label: Text(
-                  _isVolunteer
-                      ? 'You Are a Volunteer'
-                      : 'Join as a Volunteer',
-                ),
-              ),
-            ),
             const SizedBox(height: 28),
             Text(
               'Volunteer Opportunities',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(height: 12),
-            _buildOpportunityCard(
-              context,
-              icon: Icons.pets_outlined,
-              title: 'Animal Rescue Support',
-              subtitle:
-                  'Help support rescue and welfare activities.',
-            ),
-            const SizedBox(height: 12),
-            _buildOpportunityCard(
-              context,
-              icon: Icons.home_outlined,
-              title: 'Shelter Assistance',
-              subtitle:
-                  'Support local shelters and animal care centers.',
-            ),
-            const SizedBox(height: 28),
-            Text(
-              'Your Activity',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(height: 12),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Center(
-                  child: Text(
-                    _selectedOpportunity == null
-                        ? 'No volunteer activity yet.'
-                        : 'Selected opportunity:\n$_selectedOpportunity',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
                   ),
+            ),
+            const SizedBox(height: 12),
+            ..._opportunities.map(
+              (opportunity) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: _buildOpportunityCard(
+                  context,
+                  title: opportunity['title'] as String,
+                  subtitle: opportunity['subtitle'] as String,
+                  icon: opportunity['icon'] as IconData,
                 ),
               ),
             ),
+            const SizedBox(height: 16),
+            Text(
+              'Your Activity',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const SizedBox(height: 12),
+            _buildActivityCard(context),
           ],
         ),
       ),
@@ -116,23 +134,84 @@ class _VolunteerPageState extends State<VolunteerPage> {
 
   Widget _buildOpportunityCard(
     BuildContext context, {
-    required IconData icon,
     required String title,
     required String subtitle,
+    required IconData icon,
   }) {
-    final isSelected = _selectedOpportunity == title;
+    final isJoined = _joinedOpportunities.contains(title);
 
     return Card(
-      child: ListTile(
-        leading: Icon(icon),
-        title: Text(title),
-        subtitle: Text(subtitle),
-        trailing: Icon(
-          isSelected
-              ? Icons.check_circle
-              : Icons.chevron_right,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CircleAvatar(
+              child: Icon(icon),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(subtitle),
+                  const SizedBox(height: 12),
+                  OutlinedButton(
+                    onPressed: () => _toggleOpportunity(title),
+                    child: Text(
+                      isJoined ? 'Joined' : 'Join',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-        onTap: () => _selectOpportunity(title),
+      ),
+    );
+  }
+
+  Widget _buildActivityCard(BuildContext context) {
+    if (_joinedOpportunities.isEmpty) {
+      return const Card(
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Center(
+            child: Text(
+              'No volunteer activity yet.',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: _joinedOpportunities.map(
+            (opportunity) {
+              return ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: const Icon(
+                  Icons.check_circle_outline,
+                ),
+                title: Text(opportunity),
+                subtitle: const Text(
+                  'You are participating in this opportunity.',
+                ),
+              );
+            },
+          ).toList(),
+        ),
       ),
     );
   }
