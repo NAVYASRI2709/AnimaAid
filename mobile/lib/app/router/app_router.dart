@@ -22,6 +22,13 @@ import '../../features/my_animals/presentation/my_animal_health_page.dart';
 import '../../features/favorites/presentation/favorites_page.dart';
 import '../../features/rescue/presentation/rescue_location_page.dart';
 import '../../features/rescue/presentation/rescue_tracking_page.dart';
+import '../../features/first_aid/presentation/first_aid_page.dart';
+import '../../features/breed_identification/presentation/breed_identification_page.dart';
+import '../../features/symptom_checker/presentation/symptom_checker_page.dart';
+import '../../features/disease_prediction/presentation/disease_prediction_page.dart';
+
+
+
 
 
 
@@ -128,6 +135,14 @@ class AppRouter {
         },
       ),
       GoRoute(
+  path: '/disease-prediction',
+  builder: (context, state) {
+    return const AppShell(
+      child: DiseasePredictionPage(),
+    );
+  },
+),
+      GoRoute(
         path: '/settings',
         builder: (context, state) {
           return const AppShell(
@@ -193,10 +208,34 @@ GoRoute(
   },
 ),
 GoRoute(
+  path: '/first-aid',
+  builder: (context, state) {
+    return const AppShell(
+      child: FirstAidPage(),
+    );
+  },
+),
+GoRoute(
   path: '/favorites',
   builder: (context, state) {
     return const AppShell(
       child: FavoritesPage(),
+    );
+  },
+),
+GoRoute(
+  path: '/symptom-checker',
+  builder: (context, state) {
+    return const AppShell(
+      child: SymptomCheckerPage(),
+    );
+  },
+),
+GoRoute(
+  path: '/breed-identification',
+  builder: (context, state) {
+    return const AppShell(
+      child: BreedIdentificationPage(),
     );
   },
 ),

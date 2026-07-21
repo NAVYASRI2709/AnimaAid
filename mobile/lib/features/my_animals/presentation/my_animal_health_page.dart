@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class MyAnimalHealthPage extends StatelessWidget {
   const MyAnimalHealthPage({super.key});
@@ -24,71 +25,66 @@ class MyAnimalHealthPage extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           const SizedBox(height: 24),
-          _buildHealthCard(
-            context,
-            icon: Icons.vaccines_outlined,
-            title: 'Vaccinations',
-            subtitle: 'Track Buddy’s vaccination history.',
+          Card(
+            child: ListTile(
+              contentPadding: const EdgeInsets.all(16),
+              leading: const CircleAvatar(
+                child: Icon(Icons.health_and_safety_outlined),
+              ),
+              title: const Text(
+                'Complete Health Records',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: const Padding(
+                padding: EdgeInsets.only(top: 6),
+                child: Text(
+                  'Manage vaccinations, medical history, medications, '
+                  'veterinary visits, age, and other health information.',
+                ),
+              ),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.go('/health-records'),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.vaccines_outlined),
+              title: const Text('Vaccinations'),
+              subtitle: const Text(
+                'Track Buddy’s vaccination history.',
+              ),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.go('/health-records'),
+            ),
           ),
           const SizedBox(height: 12),
-          _buildHealthCard(
-            context,
-            icon: Icons.medical_information_outlined,
-            title: 'Medical History',
-            subtitle: 'Review important medical information.',
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.medical_information_outlined),
+              title: const Text('Medical History'),
+              subtitle: const Text(
+                'Review important medical information.',
+              ),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.go('/health-records'),
+            ),
           ),
           const SizedBox(height: 12),
-          _buildHealthCard(
-            context,
-            icon: Icons.event_available_outlined,
-            title: 'Upcoming Care',
-            subtitle: 'Keep track of important care reminders.',
-          ),
-          const SizedBox(height: 24),
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton.icon(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      'Health record creation will be connected to backend storage.',
-                    ),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.add),
-              label: const Text('Add Health Record'),
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.event_available_outlined),
+              title: const Text('Upcoming Care'),
+              subtitle: const Text(
+                'Keep track of important care reminders.',
+              ),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.go('/health-records'),
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildHealthCard(
-    BuildContext context, {
-    required IconData icon,
-    required String title,
-    required String subtitle,
-  }) {
-    return Card(
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(16),
-        leading: CircleAvatar(
-          child: Icon(icon),
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        subtitle: Padding(
-          padding: const EdgeInsets.only(top: 4),
-          child: Text(subtitle),
-        ),
-        trailing: const Icon(Icons.chevron_right),
       ),
     );
   }

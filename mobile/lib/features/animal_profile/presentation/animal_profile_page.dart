@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class AnimalProfilePage extends StatelessWidget {
   const AnimalProfilePage({super.key});
@@ -53,14 +54,14 @@ class AnimalProfilePage extends StatelessWidget {
                 title: const Text('Health Status'),
                 subtitle: const Text('Health information available'),
                 trailing: const Icon(Icons.chevron_right),
-                onTap: () {},
+                onTap: () => context.go('/health-records'),
               ),
             ),
             const SizedBox(height: 12),
             SizedBox(
               width: double.infinity,
               child: FilledButton.icon(
-                onPressed: () {},
+                onPressed: () => context.go('/health-records'),
                 icon: const Icon(Icons.medical_information_outlined),
                 label: const Text('View Health Records'),
               ),

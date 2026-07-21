@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
             _buildSectionTitle(
               context,
               title: 'Quick Actions',
-              action: 'View all',
+              
             ),
             const SizedBox(height: 14),
             _buildQuickActions(context),
@@ -53,7 +53,7 @@ class HomePage extends StatelessWidget {
             _buildSectionTitle(
               context,
               title: 'Help an Animal Today',
-              action: 'See more',
+              
             ),
             const SizedBox(height: 14),
             _buildAdoptionPreview(context),
