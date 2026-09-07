@@ -213,8 +213,9 @@ class _AdoptionPageState extends State<AdoptionPage> {
                   Text(details),
                   const SizedBox(height: 10),
                   OutlinedButton(
-                    onPressed: () =>
-                        context.go('/animal-profile'),
+                    onPressed: () => context.go(
+  '/animal-profile?name=${Uri.encodeComponent(name)}',
+),
                     child: const Text('View Profile'),
                   ),
                 ],

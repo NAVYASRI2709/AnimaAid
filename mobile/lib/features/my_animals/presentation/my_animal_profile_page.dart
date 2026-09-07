@@ -96,7 +96,7 @@ class MyAnimalProfilePage extends StatelessWidget {
                 'View vaccinations and medical history',
               ),
               trailing: const Icon(Icons.chevron_right),
-              onTap: () => context.go('/my-animal-health'),
+              onTap: () => context.go('/health-records'),
             ),
           ),
           const SizedBox(height: 12),

@@ -4,6 +4,7 @@ import '../../features/adoption/presentation/adoption_page.dart';
 import '../../features/ai_assistant/presentation/ai_assistant_page.dart';
 import '../../features/animal_profile/presentation/animal_profile_page.dart';
 import '../../features/breed_identification/presentation/breed_identification_page.dart';
+import '../../features/community/presentation/community_page.dart';
 import '../../features/disease_prediction/presentation/disease_prediction_page.dart';
 import '../../features/donations/presentation/donations_page.dart';
 import '../../features/emergency_report/presentation/emergency_report_page.dart';
@@ -25,10 +26,24 @@ import '../../features/rescue/presentation/rescue_page.dart';
 import '../../features/rescue/presentation/rescue_tracking_page.dart';
 import '../../features/settings/presentation/settings_page.dart';
 import '../../features/shelters/presentation/shelter_location_page.dart';
+import '../../features/shelters/presentation/shelters_page.dart';
 import '../../features/symptom_checker/presentation/symptom_checker_page.dart';
 import '../../features/volunteer/presentation/my_volunteer_activities_page.dart';
 import '../../features/volunteer/presentation/volunteer_page.dart';
 import '../app_shell.dart';
+import '../../features/adoption/presentation/adoption_application_page.dart';
+import '../../features/adoption/presentation/adoption_application_tracking_page.dart';
+import '../../features/adoption/presentation/adoption_listing_status_page.dart';
+import '../../features/adoption/presentation/adoption_matching_page.dart';
+import '../../features/adoption/presentation/list_animal_for_adoption_page.dart';
+
+import '../../features/emergency_report/presentation/emergency_case_details_page.dart';
+import '../../features/emergency_report/presentation/issue_resolved_page.dart';
+
+import '../../features/reports/presentation/report_details_page.dart';
+
+import '../../features/vet_services/presentation/veterinary_services_page.dart';
+import '../../features/nearby_help/presentation/nearby_help_page.dart';
 
 class AppRouter {
   AppRouter._();
@@ -44,6 +59,7 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
         path: '/rescue',
         builder: (context, state) {
@@ -52,6 +68,7 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
         path: '/adoption',
         builder: (context, state) {
@@ -60,6 +77,7 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
         path: '/report-missing-pet',
         builder: (context, state) {
@@ -68,6 +86,87 @@ class AppRouter {
           );
         },
       ),
+GoRoute(
+  path: '/veterinary-services',
+  builder: (context, state) => const AppShell(
+    child: VeterinaryServicesPage(),
+  ),
+),
+
+GoRoute(
+  path: '/emergency-case-details',
+  builder: (context, state) => const AppShell(
+    child: EmergencyCaseDetailsPage(),
+  ),
+),
+
+GoRoute(
+  path: '/issue-resolved',
+  builder: (context, state) => const AppShell(
+    child: IssueResolvedPage(),
+  ),
+),
+
+GoRoute(
+  path: '/report-details',
+  builder: (context, state) {
+    final reportType =
+        state.uri.queryParameters['type'] ?? 'Other Issue';
+
+    return AppShell(
+      child: ReportDetailsPage(
+        reportType: reportType,
+      ),
+    );
+  },
+),
+
+GoRoute(
+  path: '/adoption-application',
+  builder: (context, state) {
+    final animalName =
+        state.uri.queryParameters['name'] ?? 'Buddy';
+
+    return AppShell(
+      child: AdoptionApplicationPage(
+        animalName: animalName,
+      ),
+    );
+  },
+),
+GoRoute(
+  path: '/nearby-help',
+  builder: (context, state) => const AppShell(
+    child: NearbyHelpPage(),
+  ),
+),
+GoRoute(
+  path: '/adoption-application-tracking',
+  builder: (context, state) => const AppShell(
+    child: AdoptionApplicationTrackingPage(),
+  ),
+),
+
+GoRoute(
+  path: '/adoption-listing-status',
+  builder: (context, state) => const AppShell(
+    child: AdoptionListingStatusPage(),
+  ),
+),
+
+GoRoute(
+  path: '/adoption-matching',
+  builder: (context, state) => const AppShell(
+    child: AdoptionMatchingPage(),
+  ),
+),
+
+GoRoute(
+  path: '/list-animal-for-adoption',
+  builder: (context, state) => const AppShell(
+    child: ListAnimalForAdoptionPage(),
+  ),
+),
       GoRoute(
         path: '/report-found-pet',
         builder: (context, state) {
@@ -76,6 +175,7 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
         path: '/my-volunteer-activities',
         builder: (context, state) {
@@ -84,6 +184,7 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
         path: '/ai-assistant',
         builder: (context, state) {
@@ -92,6 +193,7 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
         path: '/missing-pets',
         builder: (context, state) {
@@ -100,6 +202,7 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
         path: '/found-pets',
         builder: (context, state) {
@@ -108,27 +211,42 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
-  path: '/shelter-location',
-  builder: (context, state) {
-    return AppShell(
-      child: ShelterLocationPage(
-        name: state.uri.queryParameters['name'] ?? 'Shelter',
-        location: state.uri.queryParameters['location'] ?? 'Unknown location',
-        distance: state.uri.queryParameters['distance'] ??
-            'Distance unavailable',
-      ),
-    );
-  },
-),
-      GoRoute(
-        path: '/animal-profile',
+        path: '/shelters',
         builder: (context, state) {
           return const AppShell(
-            child: AnimalProfilePage(),
+            child: SheltersPage(),
           );
         },
       ),
+
+      GoRoute(
+        path: '/shelter-location',
+        builder: (context, state) {
+          return AppShell(
+            child: ShelterLocationPage(
+              name: state.uri.queryParameters['name'] ?? 'Shelter',
+              location:
+                  state.uri.queryParameters['location'] ?? 'Unknown location',
+              distance: state.uri.queryParameters['distance'] ??
+                  'Distance unavailable',
+            ),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: '/animal-profile',
+        builder: (context, state) {
+          return AppShell(
+            child: AnimalProfilePage(
+              name: state.uri.queryParameters['name'] ?? 'Buddy',
+            ),
+          );
+        },
+      ),
+
       GoRoute(
         path: '/health-records',
         builder: (context, state) {
@@ -137,6 +255,7 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
         path: '/volunteer',
         builder: (context, state) {
@@ -145,6 +264,16 @@ class AppRouter {
           );
         },
       ),
+
+      GoRoute(
+        path: '/community',
+        builder: (context, state) {
+          return const AppShell(
+            child: CommunityPage(),
+          );
+        },
+      ),
+
       GoRoute(
         path: '/profile',
         builder: (context, state) {
@@ -153,6 +282,7 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
         path: '/donate',
         builder: (context, state) {
@@ -161,6 +291,7 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
         path: '/disease-prediction',
         builder: (context, state) {
@@ -169,6 +300,7 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
         path: '/settings',
         builder: (context, state) {
@@ -177,6 +309,7 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
         path: '/notifications',
         builder: (context, state) {
@@ -185,6 +318,7 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
         path: '/emergency-report',
         builder: (context, state) {
@@ -193,6 +327,7 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
         path: '/my-animals',
         builder: (context, state) {
@@ -201,6 +336,7 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
         path: '/my-animal-profile',
         builder: (context, state) {
@@ -213,6 +349,7 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
         path: '/my-animal-health',
         builder: (context, state) {
@@ -221,6 +358,7 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
         path: '/first-aid',
         builder: (context, state) {
@@ -229,6 +367,7 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
         path: '/favorites',
         builder: (context, state) {
@@ -237,6 +376,7 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
         path: '/symptom-checker',
         builder: (context, state) {
@@ -245,6 +385,7 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
         path: '/breed-identification',
         builder: (context, state) {
@@ -253,12 +394,14 @@ class AppRouter {
           );
         },
       ),
+
       GoRoute(
         path: '/rescue-location',
         builder: (context, state) {
           return const RescueLocationPage();
         },
       ),
+
       GoRoute(
         path: '/rescue-tracking',
         builder: (context, state) {

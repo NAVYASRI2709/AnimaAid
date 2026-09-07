@@ -73,7 +73,7 @@ class ProfilePage extends StatelessWidget {
                     title: const Text('My Animals'),
                     subtitle: const Text('Manage your animal profiles'),
                     trailing: const Icon(Icons.chevron_right),
-                    onTap: () => context.go('/animal-profile'),
+                    onTap: () => context.go('/my-animals'),
                   ),
                   const Divider(height: 1),
                   ListTile(

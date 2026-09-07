@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-
 class HomePage extends StatelessWidget {
   const HomePage({
     super.key,
@@ -9,8 +8,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  
-
     return SafeArea(
       child: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
@@ -24,7 +21,6 @@ class HomePage extends StatelessWidget {
             _buildSectionTitle(
               context,
               title: 'Quick Actions',
-              
             ),
             const SizedBox(height: 14),
             _buildQuickActions(context),
@@ -53,7 +49,6 @@ class HomePage extends StatelessWidget {
             _buildSectionTitle(
               context,
               title: 'Help an Animal Today',
-              
             ),
             const SizedBox(height: 14),
             _buildAdoptionPreview(context),
@@ -154,6 +149,12 @@ class HomePage extends StatelessWidget {
           ),
           _buildQuickAction(
             context,
+            icon: Icons.location_searching_outlined,
+            label: 'Nearby Help',
+            onTap: () => context.go('/nearby-help'),
+          ),
+          _buildQuickAction(
+            context,
             icon: Icons.volunteer_activism_outlined,
             label: 'Volunteer',
             onTap: () => context.go('/volunteer'),
@@ -170,40 +171,40 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildQuickAction(
-  BuildContext context, {
-  required IconData icon,
-  required String label,
-  VoidCallback? onTap,
-}) {
-  return SizedBox(
-    width: 92,
-    child: Padding(
-      padding: const EdgeInsets.only(right: 12),
-      child: Column(
-        children: [
-          Card(
-            child: InkWell(
-              onTap: onTap,
-              borderRadius: BorderRadius.circular(12),
-              child: SizedBox(
-                height: 64,
-                width: 80,
-                child: Icon(icon, size: 30),
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    VoidCallback? onTap,
+  }) {
+    return SizedBox(
+      width: 92,
+      child: Padding(
+        padding: const EdgeInsets.only(right: 12),
+        child: Column(
+          children: [
+            Card(
+              child: InkWell(
+                onTap: onTap,
+                borderRadius: BorderRadius.circular(12),
+                child: SizedBox(
+                  height: 64,
+                  width: 80,
+                  child: Icon(icon, size: 30),
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
+            const SizedBox(height: 8),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   Widget _buildSectionTitle(
     BuildContext context, {
@@ -254,7 +255,10 @@ class HomePage extends StatelessWidget {
           ),
         ),
         subtitle: Text(subtitle),
-        trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
+        trailing: const Icon(
+          Icons.arrow_forward_ios_rounded,
+          size: 16,
+        ),
         onTap: onTap,
       ),
     );
@@ -268,7 +272,10 @@ class HomePage extends StatelessWidget {
           children: [
             const CircleAvatar(
               radius: 34,
-              child: Icon(Icons.pets, size: 32),
+              child: Icon(
+                Icons.pets,
+                size: 32,
+              ),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -277,9 +284,12 @@ class HomePage extends StatelessWidget {
                 children: [
                   Text(
                     'Every animal deserves a loving home.',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                   const SizedBox(height: 6),
                   const Text(
