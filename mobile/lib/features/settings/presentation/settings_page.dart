@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/services/app_settings_service.dart';
 
@@ -10,7 +11,8 @@ class SettingsPage extends StatelessWidget {
       context: context,
       applicationName: 'AnimaAid',
       applicationVersion: '1.0.0',
-      applicationLegalese: 'AI-powered animal rescue and welfare platform.',
+      applicationLegalese:
+          'AI-powered animal rescue and welfare platform.',
     );
   }
 
@@ -114,6 +116,7 @@ class SettingsPage extends StatelessWidget {
       ),
       body: ListView(
         children: [
+          // General Notifications
           ValueListenableBuilder<bool>(
             valueListenable: settings.notificationsEnabledNotifier,
             builder: (context, notificationsEnabled, _) {
@@ -130,7 +133,31 @@ class SettingsPage extends StatelessWidget {
               );
             },
           ),
+
           const Divider(),
+
+          // Emergency Notifications
+          ValueListenableBuilder<bool>(
+            valueListenable:
+                settings.emergencyNotificationsEnabledNotifier,
+            builder: (context, emergencyNotificationsEnabled, _) {
+              return SwitchListTile(
+                secondary: const Icon(
+                  Icons.warning_amber_rounded,
+                ),
+                title: const Text('Emergency Alerts'),
+                subtitle: const Text(
+                  'Receive notifications for urgent emergency situations',
+                ),
+                value: emergencyNotificationsEnabled,
+                onChanged:
+                    settings.setEmergencyNotificationsEnabled,
+              );
+            },
+          ),
+
+          const Divider(),
+
           ValueListenableBuilder<ThemeMode>(
             valueListenable: settings.themeModeNotifier,
             builder: (context, themeMode, _) {
@@ -142,11 +169,16 @@ class SettingsPage extends StatelessWidget {
                   Icons.arrow_forward_ios,
                   size: 16,
                 ),
-                onTap: () => _showAppearanceDialog(context, settings),
+                onTap: () => _showAppearanceDialog(
+                  context,
+                  settings,
+                ),
               );
             },
           ),
+
           const Divider(),
+
           ValueListenableBuilder<String>(
             valueListenable: settings.languageNotifier,
             builder: (context, language, _) {
@@ -158,11 +190,34 @@ class SettingsPage extends StatelessWidget {
                   Icons.arrow_forward_ios,
                   size: 16,
                 ),
-                onTap: () => _showLanguageDialog(context, settings),
+                onTap: () => _showLanguageDialog(
+                  context,
+                  settings,
+                ),
               );
             },
           ),
+
           const Divider(),
+
+          // Admin Dashboard
+          ListTile(
+            leading: const Icon(
+              Icons.admin_panel_settings_outlined,
+            ),
+            title: const Text('Admin Dashboard'),
+            subtitle: const Text(
+              'Monitor and manage AnimaAid activity',
+            ),
+            trailing: const Icon(
+              Icons.arrow_forward_ios,
+              size: 16,
+            ),
+            onTap: () => context.go('/admin'),
+          ),
+
+          const Divider(),
+
           ListTile(
             leading: const Icon(Icons.info_outline),
             title: const Text('About AnimaAid'),

@@ -88,15 +88,11 @@ class _EmergencyReportPageState extends State<EmergencyReportPage> {
               onPressed: () {
   Navigator.pop(dialogContext);
 
-  ScaffoldMessenger.of(context).showSnackBar(
-    const SnackBar(
-      content: Text(
-        'Rescue request submitted successfully.',
-      ),
-    ),
+  context.go(
+    '/emergency-case-details'
+    '?animal=${Uri.encodeComponent(_selectedAnimalType!)}'
+    '&severity=${Uri.encodeComponent(_selectedSeverity!)}',
   );
-
-  context.go('/rescue-tracking');
 },
               child: const Text('Submit'),
             ),

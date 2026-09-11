@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../core/services/app_settings_service.dart';
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({super.key});
@@ -8,6 +11,8 @@ class NotificationsPage extends StatefulWidget {
 }
 
 class _NotificationsPageState extends State<NotificationsPage> {
+  final AppSettingsService settings = AppSettingsService.instance;
+
   final List<Map<String, dynamic>> _notifications = [
     {
       'title': 'Emergency Rescue Update',
@@ -104,107 +109,177 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          _unreadCount == 0
-              ? 'Notifications'
-              : 'Notifications ($_unreadCount)',
-        ),
-        actions: [
-          if (_unreadCount > 0)
-            IconButton(
-              onPressed: _markAllAsRead,
-              tooltip: 'Mark all as read',
-              icon: const Icon(Icons.done_all),
+    return ValueListenableBuilder<bool>(
+      valueListenable: settings.notificationsEnabledNotifier,
+      builder: (context, notificationsEnabled, _) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              notificationsEnabled && _unreadCount > 0
+                  ? 'Notifications ($_unreadCount)'
+                  : 'Notifications',
             ),
-          if (_notifications.isNotEmpty)
-            IconButton(
-              onPressed: _clearAll,
-              tooltip: 'Clear all',
-              icon: const Icon(Icons.delete_outline),
-            ),
-        ],
-      ),
-      body: _notifications.isEmpty
-          ? const Center(
-              child: Text('No notifications yet'),
-            )
-          : ListView.builder(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              itemCount: _notifications.length,
-              itemBuilder: (context, index) {
-                final notification = _notifications[index];
-                final isRead = notification['isRead'] as bool;
-                final category = notification['category'] as String;
+            actions: [
+              // Emergency Notifications remain accessible
+              // independently of normal notifications.
+              IconButton(
+                onPressed: () =>
+                    context.push('/emergency-notifications'),
+                tooltip: 'Emergency Alerts',
+                icon: const Icon(
+                  Icons.warning_amber_rounded,
+                ),
+              ),
 
-                return Card(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  child: ListTile(
-                    onTap: () => _markAsRead(index),
-                    leading: CircleAvatar(
-                      child: Icon(
-                        _categoryIcon(category),
+              if (notificationsEnabled && _unreadCount > 0)
+                IconButton(
+                  onPressed: _markAllAsRead,
+                  tooltip: 'Mark all as read',
+                  icon: const Icon(Icons.done_all),
+                ),
+
+              if (notificationsEnabled && _notifications.isNotEmpty)
+                IconButton(
+                  onPressed: _clearAll,
+                  tooltip: 'Clear all',
+                  icon: const Icon(Icons.delete_outline),
+                ),
+            ],
+          ),
+          body: !notificationsEnabled
+              ? _buildDisabledView()
+              : _notifications.isEmpty
+                  ? const Center(
+                      child: Text('No notifications yet'),
+                    )
+                  : ListView.builder(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8,
                       ),
-                    ),
-                    title: Text(
-                      notification['title'] as String,
-                      style: TextStyle(
-                        fontWeight:
-                            isRead ? FontWeight.normal : FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            notification['subtitle'] as String,
+                      itemCount: _notifications.length,
+                      itemBuilder: (context, index) {
+                        final notification = _notifications[index];
+                        final isRead =
+                            notification['isRead'] as bool;
+                        final category =
+                            notification['category'] as String;
+
+                        return Card(
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
                           ),
-                          const SizedBox(height: 4),
-                          Row(
-                            children: [
-                              Text(
-                                category,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .primary,
-                                ),
+                          child: ListTile(
+                            onTap: () => _markAsRead(index),
+                            leading: CircleAvatar(
+                              child: Icon(
+                                _categoryIcon(category),
                               ),
-                              const SizedBox(width: 8),
-                              Text(
-                                '• ${notification['time']}',
-                                style:
-                                    Theme.of(context).textTheme.bodySmall,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    trailing: isRead
-                        ? null
-                        : Container(
-                            width: 10,
-                            height: 10,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primary,
                             ),
+                            title: Text(
+                              notification['title'] as String,
+                              style: TextStyle(
+                                fontWeight: isRead
+                                    ? FontWeight.normal
+                                    : FontWeight.bold,
+                              ),
+                            ),
+                            subtitle: Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 4),
+                              child: Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    notification['subtitle']
+                                        as String,
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        category,
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight:
+                                              FontWeight.w600,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        '• ${notification['time']}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            trailing: isRead
+                                ? null
+                                : Container(
+                                    width: 10,
+                                    height: 10,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary,
+                                    ),
+                                  ),
                           ),
-                  ),
-                );
-              },
+                        );
+                      },
+                    ),
+        );
+      },
+    );
+  }
+
+  Widget _buildDisabledView() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.notifications_off_outlined,
+              size: 64,
+              color: Theme.of(context)
+                  .colorScheme
+                  .onSurfaceVariant,
             ),
+            const SizedBox(height: 16),
+            const Text(
+              'Notifications are disabled',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Enable Notifications in Settings to receive '
+              'normal AnimaAid notifications.',
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            OutlinedButton.icon(
+              onPressed: () => context.push('/settings'),
+              icon: const Icon(Icons.settings_outlined),
+              label: const Text('Open Settings'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

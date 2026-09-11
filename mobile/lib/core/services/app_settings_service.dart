@@ -5,7 +5,12 @@ class AppSettingsService {
 
   static final AppSettingsService instance = AppSettingsService._();
 
+  // General notifications
   final ValueNotifier<bool> notificationsEnabledNotifier =
+      ValueNotifier<bool>(true);
+
+  // Emergency notifications
+  final ValueNotifier<bool> emergencyNotificationsEnabledNotifier =
       ValueNotifier<bool>(true);
 
   final ValueNotifier<ThemeMode> themeModeNotifier =
@@ -16,12 +21,19 @@ class AppSettingsService {
 
   bool get notificationsEnabled => notificationsEnabledNotifier.value;
 
+  bool get emergencyNotificationsEnabled =>
+      emergencyNotificationsEnabledNotifier.value;
+
   ThemeMode get themeMode => themeModeNotifier.value;
 
   String get language => languageNotifier.value;
 
   void setNotificationsEnabled(bool value) {
     notificationsEnabledNotifier.value = value;
+  }
+
+  void setEmergencyNotificationsEnabled(bool value) {
+    emergencyNotificationsEnabledNotifier.value = value;
   }
 
   void setThemeMode(ThemeMode value) {

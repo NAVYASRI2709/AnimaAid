@@ -81,6 +81,17 @@ class HomePage extends StatelessWidget {
             ],
           ),
         ),
+
+        // Global Search
+        IconButton(
+          onPressed: () {
+            context.push('/search');
+          },
+          icon: const Icon(Icons.search_rounded),
+          tooltip: 'Search',
+        ),
+
+        // Notifications
         IconButton(
           onPressed: () {
             context.go('/notifications');
@@ -189,7 +200,10 @@ class HomePage extends StatelessWidget {
                 child: SizedBox(
                   height: 64,
                   width: 80,
-                  child: Icon(icon, size: 30),
+                  child: Icon(
+                    icon,
+                    size: 30,
+                  ),
                 ),
               ),
             ),

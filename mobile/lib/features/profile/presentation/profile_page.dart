@@ -64,7 +64,26 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
             ),
+
             const SizedBox(height: 16),
+
+            // Account
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.login_outlined),
+                title: const Text('Account'),
+                subtitle: const Text(
+                  'Sign in or create your AnimaAid account',
+                ),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.go('/auth'),
+
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            // Personal Features
             Card(
               child: Column(
                 children: [
@@ -98,7 +117,10 @@ class ProfilePage extends StatelessWidget {
                 ],
               ),
             ),
+
             const SizedBox(height: 16),
+
+            // Settings and Support
             Card(
               child: Column(
                 children: [
@@ -113,8 +135,7 @@ class ProfilePage extends StatelessWidget {
                     leading: const Icon(Icons.help_outline),
                     title: const Text('Help & Support'),
                     trailing: const Icon(Icons.chevron_right),
-                    onTap: () => _showHelpDialog(context),
-                  ),
+                    onTap: () => context.push('/help-support'),                  ),
                 ],
               ),
             ),
