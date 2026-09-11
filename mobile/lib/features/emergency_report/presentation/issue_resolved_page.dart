@@ -1,10 +1,9 @@
-```dart
 import 'package:flutter/material.dart';
 
 class IssueResolvedPage extends StatefulWidget {
   const IssueResolvedPage({
     super.key,
-    this.caseId = '#ER-1024',
+    this.caseId = '#ER',
   });
 
   final String caseId;
@@ -123,4 +122,3 @@ class _IssueResolvedPageState extends State<IssueResolvedPage> {
     );
   }
 }
-```

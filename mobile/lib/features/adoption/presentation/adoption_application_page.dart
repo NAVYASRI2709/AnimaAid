@@ -1,4 +1,3 @@
-```dart
 import 'package:flutter/material.dart';
 
 import 'adoption_application_tracking_page.dart';
@@ -154,4 +153,3 @@ class _AdoptionApplicationPageState
     );
   }
 }
-```

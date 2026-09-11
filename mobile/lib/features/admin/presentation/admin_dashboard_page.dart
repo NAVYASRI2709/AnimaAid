@@ -56,7 +56,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: DropdownButtonFormField<String>(
-                value: selectedLocation,
+                initialValue: selectedLocation,
                 decoration: const InputDecoration(
                   labelText: 'Monitor Location',
                   prefixIcon: Icon(Icons.location_on),

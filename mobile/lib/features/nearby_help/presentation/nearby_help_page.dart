@@ -1,4 +1,3 @@
-```dart
 import 'package:flutter/material.dart';
 
 import '../../shelters/presentation/shelters_page.dart';
@@ -279,4 +278,3 @@ class NearbyHelpPage extends StatelessWidget {
     );
   }
 }
-```

@@ -1,4 +1,3 @@
-```dart
 import 'package:flutter/material.dart';
 
 class AdoptionApplicationTrackingPage extends StatelessWidget {
@@ -150,7 +149,7 @@ class AdoptionApplicationTrackingPage extends StatelessWidget {
               size: 28,
             ),
             if (showLine)
-              Container(
+              SizedBox(
                 width: 2,
                 height: 50,
               ),
@@ -183,4 +182,3 @@ class AdoptionApplicationTrackingPage extends StatelessWidget {
     );
   }
 }
-```

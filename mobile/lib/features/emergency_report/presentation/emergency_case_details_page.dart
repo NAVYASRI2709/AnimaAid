@@ -1,4 +1,3 @@
-```dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -7,12 +6,22 @@ import 'issue_resolved_page.dart';
 class EmergencyCaseDetailsPage extends StatelessWidget {
   const EmergencyCaseDetailsPage({
     super.key,
+    this.caseId = '#ER',
     this.animalType = 'Unknown',
     this.severity = 'Unknown',
+    this.description = '',
+    this.contact = '',
+    this.locationLabel = '',
+    this.isEmergency = true,
   });
 
+  final String caseId;
   final String animalType;
   final String severity;
+  final String description;
+  final String contact;
+  final String locationLabel;
+  final bool isEmergency;
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +78,12 @@ class EmergencyCaseDetailsPage extends StatelessWidget {
               child: Column(
                 children: [
                   ListTile(
+                    leading: const Icon(Icons.confirmation_number_outlined),
+                    title: const Text('Case ID'),
+                    subtitle: Text(caseId),
+                  ),
+                  const Divider(height: 1),
+                  ListTile(
                     leading: const Icon(Icons.pets_outlined),
                     title: const Text('Animal Type'),
                     subtitle: Text(animalType),
@@ -79,12 +94,39 @@ class EmergencyCaseDetailsPage extends StatelessWidget {
                     title: const Text('Severity'),
                     subtitle: Text(severity),
                   ),
-                  const Divider(height: 1),
-                  const ListTile(
-                    leading: Icon(Icons.confirmation_number_outlined),
-                    title: Text('Case ID'),
-                    subtitle: Text('#ER-1024'),
-                  ),
+                  if (isEmergency) ...[
+                    const Divider(height: 1),
+                    const ListTile(
+                      leading: Icon(Icons.emergency_outlined),
+                      title: Text('Priority'),
+                      subtitle: Text('Urgent'),
+                    ),
+                  ],
+                  if (description.isNotEmpty) ...[
+                    const Divider(height: 1),
+                    ListTile(
+                      leading: const Icon(Icons.description_outlined),
+                      title: const Text('Description'),
+                      subtitle: Text(description),
+                      isThreeLine: true,
+                    ),
+                  ],
+                  if (contact.isNotEmpty) ...[
+                    const Divider(height: 1),
+                    ListTile(
+                      leading: const Icon(Icons.phone_outlined),
+                      title: const Text('Contact'),
+                      subtitle: Text(contact),
+                    ),
+                  ],
+                  if (locationLabel.isNotEmpty) ...[
+                    const Divider(height: 1),
+                    ListTile(
+                      leading: const Icon(Icons.location_on_outlined),
+                      title: const Text('Rescue Location'),
+                      subtitle: Text(locationLabel),
+                    ),
+                  ],
                   const Divider(height: 1),
                   const ListTile(
                     leading: Icon(Icons.pending_actions_outlined),
@@ -176,7 +218,7 @@ class EmergencyCaseDetailsPage extends StatelessWidget {
                       width: double.infinity,
                       child: OutlinedButton.icon(
                         onPressed: () {
-                          // Connect to the existing shared live chat route.
+                          context.go('/chat');
                         },
                         icon: const Icon(Icons.chat_outlined),
                         label: const Text('Open Live Chat'),
@@ -190,7 +232,7 @@ class EmergencyCaseDetailsPage extends StatelessWidget {
                       width: double.infinity,
                       child: OutlinedButton.icon(
                         onPressed: () {
-                          context.go('/rescue-location');
+                          context.push('/rescue-location');
                         },
                         icon: const Icon(
                           Icons.location_on_outlined,
@@ -210,8 +252,8 @@ class EmergencyCaseDetailsPage extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  const IssueResolvedPage(
-                                caseId: '#ER-1024',
+                                  IssueResolvedPage(
+                                caseId: caseId,
                               ),
                             ),
                           );
@@ -284,4 +326,3 @@ class EmergencyCaseDetailsPage extends StatelessWidget {
     );
   }
 }
-```

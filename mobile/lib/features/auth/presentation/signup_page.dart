@@ -1,4 +1,3 @@
-```dart
 import 'package:flutter/material.dart';
 
 class SignupPage extends StatefulWidget {
@@ -142,4 +141,3 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 }
-```

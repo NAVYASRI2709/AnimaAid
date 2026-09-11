@@ -1,4 +1,3 @@
-```dart
 import 'package:flutter/material.dart';
 
 class AdoptionListingStatusPage extends StatelessWidget {
@@ -173,7 +172,7 @@ class AdoptionListingStatusPage extends StatelessWidget {
               size: 28,
             ),
             if (showLine)
-              Container(
+              SizedBox(
                 width: 2,
                 height: 50,
               ),
@@ -205,4 +204,3 @@ class AdoptionListingStatusPage extends StatelessWidget {
     );
   }
 }
-```

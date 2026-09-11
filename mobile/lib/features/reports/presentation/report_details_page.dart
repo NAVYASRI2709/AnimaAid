@@ -1,4 +1,3 @@
-```dart
 import 'package:flutter/material.dart';
 
 class ReportDetailsPage extends StatelessWidget {
@@ -151,7 +150,7 @@ class ReportDetailsPage extends StatelessWidget {
               size: 28,
             ),
             if (showLine)
-              Container(
+              SizedBox(
                 width: 2,
                 height: 50,
               ),
@@ -184,4 +183,3 @@ class ReportDetailsPage extends StatelessWidget {
     );
   }
 }
-```

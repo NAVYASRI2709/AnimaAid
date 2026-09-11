@@ -1,4 +1,3 @@
-```dart
 import 'package:flutter/material.dart';
 
 class VeterinaryServiceDetailsPage extends StatelessWidget {
@@ -112,4 +111,3 @@ class VeterinaryServiceDetailsPage extends StatelessWidget {
     );
   }
 }
-```

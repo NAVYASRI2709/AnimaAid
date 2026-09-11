@@ -1,4 +1,3 @@
-```dart
 import 'package:flutter/material.dart';
 
 import 'found_pet_report_page.dart';
@@ -186,4 +185,3 @@ class ReportPage extends StatelessWidget {
     );
   }
 }
-```

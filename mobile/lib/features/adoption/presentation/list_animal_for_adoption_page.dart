@@ -1,4 +1,3 @@
-```dart
 import 'package:flutter/material.dart';
 
 class ListAnimalForAdoptionPage extends StatefulWidget {
@@ -279,4 +278,3 @@ class _ListAnimalForAdoptionPageState
     );
   }
 }
-```

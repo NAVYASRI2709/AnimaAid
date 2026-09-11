@@ -86,14 +86,25 @@ class _EmergencyReportPageState extends State<EmergencyReportPage> {
             ),
             FilledButton(
               onPressed: () {
-  Navigator.pop(dialogContext);
+                Navigator.pop(dialogContext);
 
-  context.go(
-    '/emergency-case-details'
-    '?animal=${Uri.encodeComponent(_selectedAnimalType!)}'
-    '&severity=${Uri.encodeComponent(_selectedSeverity!)}',
-  );
-},
+                final caseId =
+                    '#ER-${DateTime.now().millisecondsSinceEpoch % 100000}';
+
+                final location = _selectedRescueLocation!;
+
+                context.go(
+                  '/emergency-case-details'
+                  '?caseId=${Uri.encodeComponent(caseId)}'
+                  '&animal=${Uri.encodeComponent(_selectedAnimalType!)}'
+                  '&severity=${Uri.encodeComponent(_selectedSeverity!)}'
+                  '&description=${Uri.encodeComponent(_descriptionController.text.trim())}'
+                  '&contact=${Uri.encodeComponent(_contactController.text.trim())}'
+                  '&lat=${location.latitude}'
+                  '&lng=${location.longitude}'
+                  '&emergency=$_isEmergency',
+                );
+              },
               child: const Text('Submit'),
             ),
           ],

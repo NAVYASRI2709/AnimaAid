@@ -1,4 +1,3 @@
-```dart
 import 'package:flutter/material.dart';
 
 class AdoptionMatchingPage extends StatefulWidget {
@@ -248,4 +247,3 @@ class _AdoptionMatchingPageState extends State<AdoptionMatchingPage> {
     );
   }
 }
-```

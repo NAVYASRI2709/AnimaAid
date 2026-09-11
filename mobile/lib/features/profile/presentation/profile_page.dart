@@ -4,26 +4,6 @@ import 'package:go_router/go_router.dart';
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
-  void _showHelpDialog(BuildContext context) {
-    showDialog<void>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Help & Support'),
-          content: const Text(
-            'For help and support, please use the available rescue and welfare services in AnimaAid.',
-          ),
-          actions: [
-            FilledButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,7 +115,8 @@ class ProfilePage extends StatelessWidget {
                     leading: const Icon(Icons.help_outline),
                     title: const Text('Help & Support'),
                     trailing: const Icon(Icons.chevron_right),
-                    onTap: () => context.push('/help-support'),                  ),
+                    onTap: () => context.push('/help-support'),
+                  ),
                 ],
               ),
             ),

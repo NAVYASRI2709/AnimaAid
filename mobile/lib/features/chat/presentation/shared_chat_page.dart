@@ -1,4 +1,3 @@
-```dart
 import 'package:flutter/material.dart';
 
 class SharedChatPage extends StatefulWidget {
@@ -172,4 +171,3 @@ class _SharedChatPageState extends State<SharedChatPage> {
     );
   }
 }
-```

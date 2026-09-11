@@ -220,16 +220,29 @@ GoRoute(
       GoRoute(
         path: '/emergency-case-details',
         builder: (context, state) {
-          final animalType =
-              state.uri.queryParameters['animal'] ?? 'Unknown';
+          final params = state.uri.queryParameters;
 
-          final severity =
-              state.uri.queryParameters['severity'] ?? 'Unknown';
+          final animalType = params['animal'] ?? 'Unknown';
+          final severity = params['severity'] ?? 'Unknown';
+          final caseId = params['caseId'] ?? '#ER';
+          final description = params['description'] ?? '';
+          final contact = params['contact'] ?? '';
+          final isEmergency = params['emergency'] == 'true';
+
+          final lat = double.tryParse(params['lat'] ?? '');
+          final lng = double.tryParse(params['lng'] ?? '');
 
           return AppShell(
             child: EmergencyCaseDetailsPage(
+              caseId: caseId,
               animalType: animalType,
               severity: severity,
+              description: description,
+              contact: contact,
+              locationLabel: lat != null && lng != null
+                  ? '${lat.toStringAsFixed(4)}, ${lng.toStringAsFixed(4)}'
+                  : '',
+              isEmergency: isEmergency,
             ),
           );
         },
