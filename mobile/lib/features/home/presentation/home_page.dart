@@ -37,13 +37,13 @@ class HomePage extends StatelessWidget {
               subtitle: 'Get guidance for your animal companion',
               onTap: () => context.go('/ai-assistant'),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             _buildFeatureCard(
               context,
-              icon: Icons.location_on_outlined,
-              title: 'Nearby Shelters',
-              subtitle: 'Find animal shelters and rescue centers',
-              onTap: () => context.go('/shelters'),
+              icon: Icons.chat_bubble_outline_rounded,
+              title: 'Community Chat',
+              subtitle: 'Connect with your local animal welfare community',
+              onTap: () => context.go('/chat'),
             ),
             const SizedBox(height: 28),
             _buildSectionTitle(
@@ -81,7 +81,6 @@ class HomePage extends StatelessWidget {
             ],
           ),
         ),
-
         // Global Search
         IconButton(
           onPressed: () {
@@ -90,7 +89,6 @@ class HomePage extends StatelessWidget {
           icon: const Icon(Icons.search_rounded),
           tooltip: 'Search',
         ),
-
         // Notifications
         IconButton(
           onPressed: () {

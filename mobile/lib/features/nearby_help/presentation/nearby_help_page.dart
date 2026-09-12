@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../emergency_report/presentation/emergency_report_page.dart';
+import '../../reports/presentation/welfare_report_page.dart';
 import '../../shelters/presentation/shelters_page.dart';
 import '../../vet_services/presentation/veterinary_services_page.dart';
 
@@ -149,6 +151,8 @@ class NearbyHelpPage extends StatelessWidget {
                       ),
                 ),
                 const SizedBox(height: 16),
+
+                // Emergency Animal Rescue
                 ListTile(
                   leading: const Icon(Icons.emergency_outlined),
                   title: const Text('Emergency Animal Rescue'),
@@ -157,8 +161,16 @@ class NearbyHelpPage extends StatelessWidget {
                   ),
                   onTap: () {
                     Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const EmergencyReportPage(),
+                      ),
+                    );
                   },
                 ),
+
+                // Animal Welfare Support
                 ListTile(
                   leading:
                       const Icon(Icons.volunteer_activism_outlined),
@@ -168,8 +180,16 @@ class NearbyHelpPage extends StatelessWidget {
                   ),
                   onTap: () {
                     Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const WelfareReportPage(),
+                      ),
+                    );
                   },
                 ),
+
+                // Report an Animal Welfare Issue
                 ListTile(
                   leading: const Icon(Icons.report_problem_outlined),
                   title: const Text('Report an Animal Welfare Issue'),
@@ -178,6 +198,12 @@ class NearbyHelpPage extends StatelessWidget {
                   ),
                   onTap: () {
                     Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const WelfareReportPage(),
+                      ),
+                    );
                   },
                 ),
               ],
@@ -209,6 +235,8 @@ class NearbyHelpPage extends StatelessWidget {
                       ),
                 ),
                 const SizedBox(height: 16),
+
+                // Pet Boarding
                 ListTile(
                   leading: const Icon(Icons.home_outlined),
                   title: const Text('Pet Boarding'),
@@ -217,8 +245,17 @@ class NearbyHelpPage extends StatelessWidget {
                   ),
                   onTap: () {
                     Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          'Pet boarding services will be available after location integration.',
+                        ),
+                      ),
+                    );
                   },
                 ),
+
+                // Pet Grooming
                 ListTile(
                   leading: const Icon(Icons.content_cut_outlined),
                   title: const Text('Pet Grooming'),
@@ -227,8 +264,17 @@ class NearbyHelpPage extends StatelessWidget {
                   ),
                   onTap: () {
                     Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          'Pet grooming services will be available after location integration.',
+                        ),
+                      ),
+                    );
                   },
                 ),
+
+                // Pet Walking & Care
                 ListTile(
                   leading: const Icon(Icons.directions_walk_outlined),
                   title: const Text('Pet Walking & Care'),
@@ -237,6 +283,13 @@ class NearbyHelpPage extends StatelessWidget {
                   ),
                   onTap: () {
                     Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          'Pet walking and care services will be available after location integration.',
+                        ),
+                      ),
+                    );
                   },
                 ),
               ],

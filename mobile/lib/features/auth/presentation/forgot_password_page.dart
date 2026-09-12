@@ -36,6 +36,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          tooltip: 'Back',
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.go('/auth'),
+        ),
         title: const Text('Forgot Password'),
       ),
       body: SafeArea(

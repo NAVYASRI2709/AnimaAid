@@ -67,15 +67,54 @@ import '../../features/admin/presentation/admin_dashboard_page.dart';
 import '../../features/admin/presentation/admin_messages_page.dart';
 import '../../features/emergency_notifications/presentation/emergency_notifications_page.dart';
 
+import '../../core/services/auth_session_service.dart';
 
 import '../app_shell.dart';
+
 
 class AppRouter {
   AppRouter._();
 
   static final GoRouter router = GoRouter(
-    initialLocation: '/',
-    routes: <RouteBase>[
+  refreshListenable: AuthSessionService.instance.role,
+  initialLocation: '/auth',
+  redirect: (context, state) {
+    final session = AuthSessionService.instance;
+    final location = state.uri.path;
+
+    const publicRoutes = {
+      '/auth',
+      '/login',
+      '/signup',
+      '/forgot-password',
+    };
+
+    if (!session.isLoggedIn) {
+      if (publicRoutes.contains(location)) {
+        return null;
+      }
+
+      return '/auth';
+    }
+
+    if (location == '/auth' ||
+        location == '/login' ||
+        location == '/signup' ||
+        location == '/forgot-password') {
+      return session.isAdmin ? '/admin' : '/';
+    }
+
+    if (location.startsWith('/admin') && !session.isAdmin) {
+      return '/';
+    }
+
+    if (session.isAdmin && !location.startsWith('/admin')) {
+      return '/admin';
+    }
+
+    return null;
+  },
+  routes: <RouteBase>[
       GoRoute(
         path: '/',
         builder: (context, state) {

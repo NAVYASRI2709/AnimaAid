@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/services/auth_session_service.dart';
+
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
@@ -44,23 +46,7 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
             ),
-
-            const SizedBox(height: 16),
-
-            // Account
-            Card(
-              child: ListTile(
-                leading: const Icon(Icons.login_outlined),
-                title: const Text('Account'),
-                subtitle: const Text(
-                  'Sign in or create your AnimaAid account',
-                ),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: () => context.go('/auth'),
-
-              ),
-            ),
-
+            
             const SizedBox(height: 16),
 
             // Personal Features
@@ -97,7 +83,6 @@ class ProfilePage extends StatelessWidget {
                 ],
               ),
             ),
-
             const SizedBox(height: 16),
 
             // Settings and Support
@@ -116,6 +101,19 @@ class ProfilePage extends StatelessWidget {
                     title: const Text('Help & Support'),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () => context.push('/help-support'),
+                  ),
+                  const Divider(height: 1),
+                  ListTile(
+                    leading: const Icon(Icons.logout_outlined),
+                    title: const Text('Sign Out'),
+                    subtitle: const Text(
+                      'Sign out of your AnimaAid account',
+                    ),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {
+                      AuthSessionService.instance.logout();
+                      context.go('/auth');
+                    },
                   ),
                 ],
               ),

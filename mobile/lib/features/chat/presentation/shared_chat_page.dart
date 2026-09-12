@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 class SharedChatPage extends StatefulWidget {
@@ -56,6 +57,11 @@ class _SharedChatPageState extends State<SharedChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back),
+          tooltip: 'Back',
+        ),
         title: const Text('Community Live Chat'),
         actions: [
           IconButton(
@@ -93,7 +99,6 @@ class _SharedChatPageState extends State<SharedChatPage> {
             ),
           ),
           const Divider(height: 1),
-
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.all(16),
@@ -112,7 +117,9 @@ class _SharedChatPageState extends State<SharedChatPage> {
                     decoration: BoxDecoration(
                       color: isMine
                           ? Theme.of(context).colorScheme.primaryContainer
-                          : Theme.of(context).colorScheme.surfaceContainerHighest,
+                          : Theme.of(context)
+                              .colorScheme
+                              .surfaceContainerHighest,
                       borderRadius: BorderRadius.circular(14),
                     ),
                     child: Column(
@@ -139,7 +146,6 @@ class _SharedChatPageState extends State<SharedChatPage> {
               },
             ),
           ),
-
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),

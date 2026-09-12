@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../core/services/auth_session_service.dart';
 
 import 'admin_activity_page.dart';
 import 'admin_analytics_page.dart';
@@ -32,6 +35,16 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Admin Dashboard'),
+        actions: [
+          IconButton(
+            tooltip: 'Logout',
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              AuthSessionService.instance.logout();
+              context.go('/auth');
+            },
+          ),
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -42,13 +55,10 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                   fontWeight: FontWeight.bold,
                 ),
           ),
-
           const SizedBox(height: 8),
-
           const Text(
             'Monitor animal welfare activity, reports, rescues, and community activity.',
           ),
-
           const SizedBox(height: 20),
 
           // LOCATION FILTER
@@ -70,7 +80,6 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                 }).toList(),
                 onChanged: (value) {
                   if (value == null) return;
-
                   setState(() {
                     selectedLocation = value;
                   });

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/services/auth_session_service.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -14,6 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
 
   bool _obscurePassword = true;
+  UserRole _selectedRole = UserRole.user;
 
   @override
   void dispose() {
@@ -27,19 +30,24 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    // Authentication backend will be connected here.
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Logged in successfully!'),
-      ),
-    );
-    context.go('/');
+    AuthSessionService.instance.login(_selectedRole);
+
+    if (_selectedRole == UserRole.admin) {
+      context.go('/admin');
+    } else {
+      context.go('/');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          tooltip: 'Back',
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.go('/auth'),
+        ),
         title: const Text('Login'),
       ),
       body: SafeArea(
@@ -51,6 +59,46 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 24),
+                Text(
+                  'Sign in to AnimaAid',
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Access your AnimaAid account and animal welfare services.',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(height: 24),
+                DropdownButtonFormField<UserRole>(
+                  initialValue: _selectedRole,
+                  decoration: const InputDecoration(
+                    labelText: 'Account Type',
+                    prefixIcon: Icon(Icons.person_outline),
+                    border: OutlineInputBorder(),
+                  ),
+                  items: const [
+                    DropdownMenuItem(
+                      value: UserRole.user,
+                      child: Text('User'),
+                    ),
+                    DropdownMenuItem(
+                      value: UserRole.admin,
+                      child: Text('Admin'),
+                    ),
+                  ],
+                  onChanged: (value) {
+                    if (value == null) {
+                      return;
+                    }
+
+                    setState(() {
+                      _selectedRole = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 16),
                 TextFormField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
@@ -63,6 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                     if (value == null || !value.contains('@')) {
                       return 'Please enter a valid email.';
                     }
+
                     return null;
                   },
                 ),
@@ -91,6 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your password.';
                     }
+
                     return null;
                   },
                 ),
